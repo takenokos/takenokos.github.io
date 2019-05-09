@@ -1,10 +1,3 @@
----
-layout: post
-title:  README
-date:   2014-04-06 15:40:56
-categories: takenokos test
----
-
 ## Welcome to GitHub Pages
 
 You can use the [editor on GitHub](https://github.com/takenokos/takenokos.github.io/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
