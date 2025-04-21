@@ -9,6 +9,16 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^5.5.5"
+    "@astrojs/preact": "^4.0.7",
+    "@astrojs/rss": "^4.0.11",
+    "@tailwindcss/vite": "^4.0.17",
+    "astro": "^5.5.5",
+    "preact": "^10.26.4",
+    "tailwindcss": "^4.0.17"
+  },
+  "devDependencies": {
+    "@tailwindcss/typography": "^0.5.16",
+    "prettier": "3.5.3",
+    "prettier-plugin-astro": "0.14.1"
   }
 }
