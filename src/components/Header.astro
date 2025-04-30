@@ -4,10 +4,12 @@ import Navigation from "./Navigation.astro";
 import ThemeIcon from "./ThemeIcon.astro";
 ---
 
-<header>
-  <nav>
+<header
+  class="sticky top-0 z-50 bg-indigo-50/30 dark:bg-indigo-950/30 lg:px-20 lg:py-10 px-10 py-5"
+>
+  <nav class="container mx-auto flex items-center justify-between">
     <Hamburger />
-    <ThemeIcon />
     <Navigation />
+    <ThemeIcon />
   </nav>
 </header>

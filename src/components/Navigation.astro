@@ -1,10 +1,12 @@
 ---
-
+import NavigationLink from "./NavigationLink.astro";
 ---
 
-<div class="nav-links">
-  <a href="/">Home</a>
-  <a href="/about">About</a>
-  <a href="/blog">Blog</a>
-  <a href="/tags">Tags</a>
+<div
+  class="nav-links lg:static lg:inline-flex lg:flex-row flex-col gap-5 py-3 hidden"
+>
+  <NavigationLink href="/"> Home </NavigationLink>
+  <NavigationLink href="/about"> About</NavigationLink>
+  <NavigationLink href="/blog"> Blog</NavigationLink>
+  <NavigationLink href="/tags"> Tags</NavigationLink>
 </div>
