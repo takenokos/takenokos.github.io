@@ -1,0 +1,9 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import LoginCard from "../components/LoginCard.tsx";
+const pageTitle = "Login";
+---
+
+<BaseLayout pageTitle={pageTitle}>
+  <LoginCard client:load />
+</BaseLayout>

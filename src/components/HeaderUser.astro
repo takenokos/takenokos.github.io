@@ -1,0 +1,45 @@
+---
+import {
+  Dropdown,
+  DropdownTrigger,
+  DropdownMenu,
+  DropdownMenuItem,
+} from "./Dropdown.tsx";
+import { getSession } from "auth-astro/server";
+const session = await getSession(Astro.request);
+console.log("session", session);
+const handleSelect = (val: any) => {
+  console.log(val);
+};
+---
+
+<div>
+  {
+    session ? (
+      <Dropdown>
+        <DropdownTrigger>Welcome {session.user?.name}</DropdownTrigger>
+        <DropdownMenu>
+          <DropdownMenuItem value="3" onSelect={handleSelect}>
+            Logout
+          </DropdownMenuItem>
+        </DropdownMenu>
+      </Dropdown>
+    ) : (
+      <a
+        href="/login"
+        class="cursor-pointer font-semibold hover:text-indigo-500"
+      >
+        Login
+      </a>
+    )
+  }
+</div>
+<script>
+  const { signOut } = await import("auth-astro/client");
+
+  const logoutDom = document.querySelector("#logout") as HTMLButtonElement;
+  if (logoutDom) logoutDom.onclick = () => signOut();
+  const handleSelect = (val: any) => {
+    console.log(val);
+  };
+</script>
