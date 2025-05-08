@@ -1,23 +1,39 @@
 ---
 import BaseLayout from "./BaseLayout.astro";
+import TagList from "../components/TagList.astro";
 const { frontmatter } = Astro.props;
 ---
 
+<style>
+  .tag {
+    margin: 0.25em;
+    border: dotted 1px #a1a1a1;
+    border-radius: 0.5em;
+    padding: 0.5em 1em;
+    font-size: 1.15em;
+    background-color: #f8fcfd;
+  }
+</style>
 <BaseLayout pageTitle={frontmatter.title}>
-  <div class="container">
-    <p>Published on: {frontmatter.pubDate.toLocaleDateString()}</p>
-    <p><em>{frontmatter.description}</em></p>
-    <p>Written by {frontmatter.author}</p>
-    <img src={frontmatter.image.url} width="300" alt={frontmatter.image.alt} />
-    <div class="tags">
-      {
-        frontmatter.tags.map((tag: string) => (
-          <p class="tag">
-            <a href={`/tags/${tag}`}>{tag}</a>
-          </p>
-        ))
-      }
+  <article class="mx-auto dark:prose-invert prose lg:prose-lg prose-slate">
+    <div class="text-slate-950 dark:text-slate-50">
+      <p class="motion-opacity-in motion-translate-y-in-100 my-0!">
+        Published on: {frontmatter.pubDate.toLocaleDateString()}
+      </p>
+      <p class="motion-opacity-in motion-translate-y-in-100 my-0!">
+        <em>{frontmatter.description}</em>
+      </p>
+      <p class="motion-opacity-in motion-translate-y-in-100 my-0!">
+        Written by {frontmatter.author}
+      </p>
+      <!-- <img -->
+      <!-- src={frontmatter.image.url} -->
+      <!-- width="100%" -->
+      <!-- alt={frontmatter.image.alt} -->
+      <!-- loading="lazy" -->
+      <!-- /> -->
+      <TagList tags={frontmatter.tags} />
     </div>
     <slot />
-  </div>
+  </article>
 </BaseLayout>

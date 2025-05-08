@@ -1,7 +1,6 @@
 import { useState } from "preact/hooks"
 import { Icon } from '@iconify-icon/react';
-
-const { signIn } = await import("auth-astro/client");
+import { signIn } from "auth-astro/client";
 
 export default function Login() {
   const [error, setError] = useState("");
@@ -15,11 +14,11 @@ export default function Login() {
 
   return (
     <div
-      class="w-full max-w-md p-8 mx-auto space-y-8 rounded-lg shadow-lg transition motion-opacity-in-0 motion-translate-y-in-50 motion-duration-600 motion-ease-spring-bouncier"
+      class="w-full max-w-md p-8 mx-auto space-y-8 transition motion-opacity-in-0 motion-translate-y-in-50 motion-duration-600 motion-ease-spring-bouncier"
     >
       <div class="text-center">
-        <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Sign In</h2>
-        <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
+        <h2 class="text-2xl font-bold text-slate-900 dark:text-white">Sign In</h2>
+        <p class="mt-2 text-sm text-slate-600 dark:text-slate-400">
           Continue with your social account
         </p>
       </div>
@@ -50,7 +49,7 @@ export default function Login() {
         </button>
       </div>
 
-      <p class="mt-4 text-center text-sm text-gray-600 dark:text-gray-400">
+      <p class="mt-4 text-center text-sm text-slate-600 dark:text-slate-400">
         By continuing, you agree to our Terms of Service and Privacy Policy.
       </p>
     </div>

@@ -1,29 +1,14 @@
 ---
-import {
-  Dropdown,
-  DropdownTrigger,
-  DropdownMenu,
-  DropdownMenuItem,
-} from "./Dropdown.tsx";
+import HeaderUserDropdown from "./HeaderUserDropdown.tsx";
 import { getSession } from "auth-astro/server";
 const session = await getSession(Astro.request);
 console.log("session", session);
-const handleSelect = (val: any) => {
-  console.log(val);
-};
 ---
 
 <div>
   {
     session ? (
-      <Dropdown>
-        <DropdownTrigger>Welcome {session.user?.name}</DropdownTrigger>
-        <DropdownMenu>
-          <DropdownMenuItem value="3" onSelect={handleSelect}>
-            Logout
-          </DropdownMenuItem>
-        </DropdownMenu>
-      </Dropdown>
+      <HeaderUserDropdown client:visible session={session} />
     ) : (
       <a
         href="/login"
@@ -34,12 +19,3 @@ const handleSelect = (val: any) => {
     )
   }
 </div>
-<script>
-  const { signOut } = await import("auth-astro/client");
-
-  const logoutDom = document.querySelector("#logout") as HTMLButtonElement;
-  if (logoutDom) logoutDom.onclick = () => signOut();
-  const handleSelect = (val: any) => {
-    console.log(val);
-  };
-</script>

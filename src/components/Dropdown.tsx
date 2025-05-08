@@ -22,6 +22,7 @@ interface DropdownMenuItemProps {
   value: string | number;
   onSelect?: (value: string | number) => void;
   setOpen?: (open: boolean) => void;
+  class?: string
 }
 
 export function Dropdown({ children }: DropdownProps) {
@@ -53,6 +54,7 @@ export function Dropdown({ children }: DropdownProps) {
 export function DropdownTrigger({ children, open, setOpen }: DropdownTriggerProps) {
   return (
     <button
+      class="cursor-pointer"
       type="button"
       aria-haspopup="menu"
       aria-expanded={open}
@@ -67,23 +69,28 @@ export function DropdownTrigger({ children, open, setOpen }: DropdownTriggerProp
 }
 
 export function DropdownMenu({ children, open }: DropdownMenuProps) {
-  if (!open) return null;
+  const [visible, setVisible] = useState(true)
+  const ulAnimationEnd = () => {
+    setVisible(!!open)
+  }
+  if (!open && !visible) return null
   return (
     <ul
       role="menu"
-      class="absolute top-full left-0 m-0 py-0.5 px-0 list-none shadow z-50 min-w-36 border rounded-md bg-slate-50 dark:bg-slate-950"
+      class={`absolute top-full left-0 m-0 p-0 list-none ring ring-slate-950/20 dark:ring-slate-50/20 z-50 min-w-36 rounded-md bg-slate-50 dark:bg-slate-950 overflow-hidden ${open ? 'motion-opacity-in motion-translate-x-in motion-translate-y-in' : 'motion-opacity-out motion-translate-x-out motion-translate-y-out'}`}
+      onAnimationEnd={ulAnimationEnd}
     >
       {children}
     </ul>
-  );
+  )
 }
 
-export function DropdownMenuItem({ children, value, onSelect, setOpen }: DropdownMenuItemProps) {
+export function DropdownMenuItem({ children, value, onSelect, setOpen, class: className }: DropdownMenuItemProps) {
   return (
     <li
       role="menuitem"
       tabIndex={-1}
-      class="cursor-pointer px-1 py-0.5"
+      class={["cursor-pointer px-2 py-0.5", className].join(' ')}
       onClick={() => {
         if (onSelect) onSelect(value);
         setOpen && setOpen(false);

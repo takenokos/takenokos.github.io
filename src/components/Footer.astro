@@ -3,11 +3,11 @@ import { Icon } from "astro-icon/components";
 const date = new Date().toLocaleString();
 ---
 
-<footer class="lg:px-20 lg:py-10 px-10 py-5">
+<footer class="lg:px-20 lg:py-10 md:px-10 md:py-5 px-5 py-2.5">
   <div
-    class="container mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 footer-content text-slate-600 dark:text-slate-400"
+    class="container mx-auto grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-8 footer-content text-slate-600 dark:text-slate-400"
   >
-    <div class="space-y-4 -motion-translate-y-in-100">
+    <div class="space-y-4 motion-opacity-in motion-translate-y-in-100">
       <h3 class="text-xl font-bold text-slate-950 dark:text-slate-50">
         About Us
       </h3>
@@ -28,7 +28,9 @@ const date = new Date().toLocaleString();
       </div>
     </div>
 
-    <div class="space-y-4">
+    <div
+      class="space-y-4 motion-opacity-in motion-translate-y-in-100 motion-delay-100"
+    >
       <h3 class="text-xl font-bold text-slate-950 dark:text-slate-50">
         Quick Links
       </h3>
@@ -48,7 +50,9 @@ const date = new Date().toLocaleString();
       </ul>
     </div>
 
-    <div class="space-y-4">
+    <div
+      class="space-y-4 motion-opacity-in motion-translate-y-in-100 motion-delay-200"
+    >
       <h3 class="text-xl font-bold text-slate-950 dark:text-slate-50">
         Customer Service
       </h3>
@@ -63,7 +67,9 @@ const date = new Date().toLocaleString();
       </ul>
     </div>
 
-    <div class="space-y-4">
+    <div
+      class="space-y-4 motion-opacity-in motion-translate-y-in-100 motion-delay-300"
+    >
       <h3 class="text-xl font-bold text-slate-950 dark:text-slate-50">
         Subscribe
       </h3>

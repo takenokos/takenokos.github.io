@@ -1,0 +1,20 @@
+---
+const { tags } = Astro.props;
+---
+
+<div class="flex flex-wrap">
+  {
+    tags.map((tag: string, i: number) => (
+      <a
+        class:list={[
+          "m-1 px-2 py-0.5 rounded ring ring-indigo-600 dark:ring-indigo-400 hover:opacity-70 motion-opacity-in motion-translate-y-in-100",
+          { "motion-delay-100": i % 3 === 1 },
+          { "motion-delay-200": i % 3 === 2 },
+        ]}
+        href={`/tags/${tag}`}
+      >
+        {tag}
+      </a>
+    ))
+  }
+</div>

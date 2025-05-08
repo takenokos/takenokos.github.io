@@ -1,14 +1,14 @@
 ---
-import BaseLayout from "../layouts/BaseLayout.astro";
+import HomeLayout from "../layouts/HomeLayout.astro";
 import Hero from "../components/Hero.astro";
 // import Greeting from "../components/Greeting.jsx";
 const pageTitle = "Home Page";
 ---
 
-<BaseLayout pageTitle={pageTitle}>
-  <Hero />
+<HomeLayout pageTitle={pageTitle}>
+  <Hero slot="hero" />
   <!-- <Greeting -->
   <!-- client:load -->
   <!-- messages={["Hi", "Hello", "Hey", "Howdy", "Hey there"]} -->
   <!-- /> -->
-</BaseLayout>
+</HomeLayout>
