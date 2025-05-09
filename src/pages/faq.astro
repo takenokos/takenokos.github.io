@@ -1,0 +1,45 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import FAQ from "../components/preact/FAQ.tsx";
+
+const pageTitle = "FAQ ";
+const pageDescription =
+  "Frequently asked questions about our products, shipping, and returns.";
+
+// FAQ data as static array (can be fetched from API in future)
+const faqData = [
+  {
+    question: "What is your return policy?",
+    answer:
+      "You can return items within 30 days of purchase for a full refund.",
+  },
+  {
+    question: "How long does shipping take?",
+    answer:
+      "Standard shipping takes 3-5 business days, depending on your location.",
+  },
+  {
+    question: "Do you offer international shipping?",
+    answer: "Yes, we ship to over 50 countries worldwide.",
+  },
+];
+---
+
+<BaseLayout pageTitle={pageTitle} pageDescription={pageDescription}>
+  <section class="max-w-4xl mx-auto">
+    <div class="container mx-auto px-4 lg:px-0">
+      <h1
+        class="text-3xl font-bold text-center mb-8 motion-opacity-in -motion-translate-y-in-50 motion-duration-1000 motion-ease-spring-bouncier"
+      >
+        Frequently Asked Questions
+      </h1>
+      <p
+        class="text-center text-slate-600 dark:text-slate-300 mb-12 motion-opacity-in -motion-translate-x-in-25 motion-duration-1000 motion-ease-spring-bouncier"
+      >
+        Find answers to common questions about our e-commerce site.
+      </p>
+
+      <FAQ faqData={faqData} client:load />
+    </div>
+  </section>
+</BaseLayout>

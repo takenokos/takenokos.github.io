@@ -1,0 +1,54 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro"; // 更新为您的BaseLayout组件
+import ContactForm from "../components/preact/ContactForm"; // Preact组件，用于表单
+
+const pageTitle = "Contact Us";
+const pageDescription =
+  "Get in touch with us for any inquiries, support, or feedback. We're here to help!";
+---
+
+<BaseLayout pageTitle={pageTitle} pageDescription={pageDescription}>
+  <div class="max-w-4xl mx-auto">
+    <section
+      class="text-center mb-12 motion-opacity-in motion-translate-y-in-50 motion-duration-800 motion-ease-spring-bouncy"
+    >
+      <h1 class="text-4xl font-bold mb-4">Contact Us</h1>
+      <p class="text-lg text-slate-600 dark:text-slate-300">
+        We'd love to hear from you! Fill out the form below or reach us
+        directly.
+      </p>
+    </section>
+
+    <section
+      class="grid md:grid-cols-2 gap-8 mb-12 motion-opacity-in motion-translate-y-in-50 motion-duration-800 motion-ease-motion-ease-spring-bouncy motion-delay-200"
+    >
+      <div class="bg-slate-50 dark:bg-slate-800 p-6 rounded-lg shadow-md">
+        <h2 class="text-2xl font-semibold mb-4">Send Us a Message</h2>
+        <ContactForm client:load />
+      </div>
+
+      <div class="bg-slate-50 dark:bg-slate-800 p-6 rounded-lg shadow-md">
+        <h2 class="text-2xl font-semibold mb-4">Our Contact Information</h2>
+        <ul class="space-y-4">
+          <li>
+            <strong>Email:</strong> support@yourecommercestore.com
+          </li>
+          <li>
+            <strong>Phone:</strong> +1 (123) 456-7890
+          </li>
+          <li>
+            <strong>Address:</strong> 123 E-commerce Street, Tech City, 12345
+          </li>
+          <li>
+            <a
+              href="https://www.google.com/maps?q=123+E-commerce+Street,+Tech+City"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-indigo-500 hover:underline">View on Google Maps</a
+            >
+          </li>
+        </ul>
+      </div>
+    </section>
+  </div>
+</BaseLayout>

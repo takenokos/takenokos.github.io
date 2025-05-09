@@ -14,7 +14,7 @@ const teamMembers = [
 ---
 
 <BaseLayout pageTitle={pageTitle}>
-  <article class="mx-auto dark:prose-invert prose lg:prose-lg prose-slate">
+  <article class="mx-auto max-w-4xl">
     <section class="text-center">
       <h1
         class="text-4xl font-bold motion-opacity-in -motion-translate-y-in-50 motion-duration-1000 motion-ease-spring-bouncier"
@@ -22,7 +22,7 @@ const teamMembers = [
         About Us
       </h1>
       <p
-        class="mt-4 text-xl motion-opacity-in -motion-translate-x-in-30 motion-duration-1000 motion-ease-spring-bouncier transition-all"
+        class="mt-4 text-xl motion-opacity-in -motion-translate-x-in-25 motion-duration-1000 motion-ease-spring-bouncier"
       >
         Discover the story behind our e-commerce journey
       </p>
@@ -47,7 +47,7 @@ const teamMembers = [
       <h2 class="text-3xl font-semibold text-slate-900 dark:text-white mb-6">
         Our Team
       </h2>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
         {
           teamMembers.map((member) => (
             <div class="bg-white dark:bg-slate-800 rounded-lg shadow-md overflow-hidden transition-transform duration-300 hover:scale-105">

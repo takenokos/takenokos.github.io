@@ -1,0 +1,182 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  pageTitle="Privacy Policy"
+  pageDescription="Our policy on handling user data and privacy."
+>
+  <section class="max-w-4xl mx-auto">
+    <h1
+      class="text-3xl font-bold text-slate-900 dark:text-slate-100 mb-6 text-center"
+    >
+      Privacy Policy
+    </h1>
+
+    <div
+      class="motion-opacity-in motion-duration-800 motion-ease-spring-bouncier"
+    >
+      <p class="text-slate-700 dark:text-slate-300 mb-4">
+        Last updated: [Insert Date, e.g., January 1, 2024]
+      </p>
+
+      <h2
+        class="text-2xl font-semibold text-slate-800 dark:text-slate-200 mt-8 mb-4"
+        id="introduction"
+      >
+        Introduction
+      </h2>
+      <p class="text-slate-700 dark:text-slate-300 mb-4">
+        We value your privacy and are committed to protecting your personal
+        data. This Privacy Policy explains how we collect, use, and safeguard
+        your information when you visit our e-commerce site.
+      </p>
+
+      <h2
+        class="text-2xl font-semibold text-slate-800 dark:text-slate-200 mt-8 mb-4"
+        id="data-collection"
+      >
+        Data We Collect
+      </h2>
+      <p class="text-slate-700 dark:text-slate-300 mb-4">
+        We may collect personal information such as your name, email address,
+        shipping details, and payment information when you register, place an
+        order, or interact with our site.
+      </p>
+
+      <h2
+        class="text-2xl font-semibold text-slate-800 dark:text-slate-200 mt-8 mb-4"
+        id="data-usage"
+      >
+        How We Use Your Data
+      </h2>
+      <p class="text-slate-700 dark:text-slate-300 mb-4">
+        Your data is used to process orders, improve our services, send updates,
+        and comply with legal obligations. We do not sell your data to third
+        parties without your consent.
+      </p>
+
+      <h2
+        class="text-2xl font-semibold text-slate-800 dark:text-slate-200 mt-8 mb-4"
+        id="data-sharing"
+      >
+        Data Sharing and Disclosure
+      </h2>
+      <p class="text-slate-700 dark:text-slate-300 mb-4">
+        We may share your data with trusted partners for shipping, payment
+        processing, or legal requirements. All sharing is done securely and in
+        compliance with applicable laws.
+      </p>
+
+      <h2
+        class="text-2xl font-semibold text-slate-800 dark:text-slate-200 mt-8 mb-4"
+        id="security"
+      >
+        Data Security
+      </h2>
+      <p class="text-slate-700 dark:text-slate-300 mb-4">
+        We implement robust security measures, including encryption and access
+        controls, to protect your data from unauthorized access or breaches.
+      </p>
+
+      <h2
+        class="text-2xl font-semibold text-slate-800 dark:text-slate-200 mt-8 mb-4"
+        id="your-rights"
+      >
+        Your Rights and Choices
+      </h2>
+      <p class="text-slate-700 dark:text-slate-300 mb-4">
+        You have the right to access, update, or delete your personal data.
+        Contact us to exercise these rights.
+      </p>
+
+      <h2
+        class="text-2xl font-semibold text-slate-800 dark:text-slate-200 mt-8 mb-4"
+        id="contact"
+      >
+        Contact Us
+      </h2>
+      <p class="text-slate-700 dark:text-slate-300 mb-4">
+        If you have any questions about this Privacy Policy, please email us at
+        support@yourecommerce.com or use our contact form.
+      </p>
+    </div>
+
+    <!-- 锚点导航 -->
+    <nav class="mt-10">
+      <ul class="flex flex-wrap gap-4">
+        <li>
+          <a
+            href="#introduction"
+            class="text-indigo-600 dark:text-indigo-400 hover:underline"
+            >Introduction</a
+          >
+        </li>
+        <li>
+          <a
+            href="#data-collection"
+            class="text-indigo-600 dark:text-indigo-400 hover:underline"
+            >Data Collection</a
+          >
+        </li>
+        <li>
+          <a
+            href="#data-usage"
+            class="text-indigo-600 dark:text-indigo-400 hover:underline"
+            >Data Usage</a
+          >
+        </li>
+        <li>
+          <a
+            href="#data-sharing"
+            class="text-indigo-600 dark:text-indigo-400 hover:underline"
+            >Data Sharing</a
+          >
+        </li>
+        <li>
+          <a
+            href="#security"
+            class="text-indigo-600 dark:text-indigo-400 hover:underline"
+            >Security</a
+          >
+        </li>
+        <li>
+          <a
+            href="#your-rights"
+            class="text-indigo-600 dark:text-indigo-400 hover:underline"
+            >Your Rights</a
+          >
+        </li>
+        <li>
+          <a
+            href="#contact"
+            class="text-indigo-600 dark:text-indigo-400 hover:underline"
+            >Contact</a
+          >
+        </li>
+      </ul>
+    </nav>
+  </section>
+</BaseLayout>
+<script>
+  const { gsap } = await import("gsap");
+  const { ScrollToPlugin } = await import("gsap/ScrollToPlugin");
+
+  gsap.registerPlugin(ScrollToPlugin);
+
+  const links = document.querySelectorAll('nav a[href^="#"]'); // 选择所有以#开头的链接
+  links.forEach((link) => {
+    link.addEventListener("click", (e: Event) => {
+      e.preventDefault(); // 阻止默认跳转
+      const target = e.currentTarget as Element;
+      const targetId = target.getAttribute("href");
+      if (targetId) {
+        gsap.to(window, {
+          duration: 0.8,
+          scrollTo: { y: targetId, offsetY: 150 },
+          ease: "power3.out",
+        });
+      }
+    });
+  });
+</script>
