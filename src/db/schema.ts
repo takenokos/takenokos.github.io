@@ -10,7 +10,14 @@ import postgres from "postgres"
 import { drizzle } from "drizzle-orm/postgres-js"
 import { type AdapterAccountType } from "@auth/core/adapters"
 
-const pool = postgres(import.meta.env.AUTH_DRIZZLE_URL, { max: 1 })
+// 处理drizzle-kit 和 astro api route的环境变量问题
+let url = ''
+try {
+  url = import.meta.env.AUTH_DRIZZLE_URL
+} catch (err) {
+  url = process.env.AUTH_DRIZZLE_URL!
+}
+const pool = postgres(url, { max: 1 })
 export const db = drizzle(pool)
 
 export const users = pgTable("user", {
@@ -95,3 +102,23 @@ export const authenticators = pgTable(
     },
   ]
 )
+
+export const subscribers = pgTable('subscribers', {
+  id: text('id')
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+  email: text('email').notNull().unique(),
+  created_at: timestamp('created_at').defaultNow(),
+  status: text('status').default('active').notNull(),
+});
+
+export const contactMessages = pgTable('contact_messages', {
+  id: text('id')
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+  name: text('name').notNull(),
+  email: text('email').notNull(),
+  message: text('message').notNull(),
+  created_at: timestamp('created_at').defaultNow(),
+  status: text('status').default('pending').notNull(),
+});

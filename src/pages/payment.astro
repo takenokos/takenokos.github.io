@@ -1,0 +1,140 @@
+---
+import IntroducLayout from "../layouts/IntroducLayout.astro";
+import FAQ from "@components/preact/FAQ.tsx";
+import { Icon } from "astro-icon/components";
+
+const pageTitle = "Payment Methods - Your E-commerce Site";
+const pageDescription =
+  "Discover our secure and convenient payment options. We accept major credit cards, PayPal, and more for a seamless shopping experience.";
+
+const faqData = [
+  {
+    question: "What currencies do you accept?",
+    answer:
+      "We accept USD, EUR, and GBP. Currency conversion may apply based on your location.",
+  },
+  {
+    question: "Is my payment information safe?",
+    answer:
+      "Yes, all payments are encrypted and processed through secure gateways.",
+  },
+  {
+    question: "Can I pay with multiple methods?",
+    answer: "Currently, only one payment method per transaction is supported.",
+  },
+];
+---
+
+<IntroducLayout title={pageTitle} description={pageDescription}>
+  <section class="py-16 text-center">
+    <h1 class="text-4xl font-bold">Payment Methods</h1>
+    <p class="mt-4 text-xl">
+      Secure and hassle-free ways to complete your purchase.
+    </p>
+
+    <div
+      class="mt-8 motion-opacity-in motion-translate-y-in-50 motion-duration-800 motion-ease-spring-bouncier"
+    >
+      <p class="text-lg">
+        We offer a variety of payment options to suit your needs, all protected
+        by advanced security measures.
+      </p>
+    </div>
+  </section>
+
+  <section class="payment-methods-section py-12 px-4 md:px-8 lg:px-16">
+    <h2 class="text-3xl font-semibold text-center mb-8">
+      Accepted Payment Methods
+    </h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div class="text-center">
+        <Icon name="mdi:credit-card-outline" class="mx-auto h-16 w-16" />
+        <h3 class="text-2xl font-medium mt-4">Credit/Debit Cards</h3>
+        <p class="mt-2">
+          Visa, Mastercard, American Express, and more. Processed securely via
+          Stripe.
+        </p>
+      </div>
+      <div class="text-center">
+        <Icon name="mdi:paypal" class="mx-auto h-16 w-16" />
+        <h3 class="text-2xl font-medium mt-4">PayPal</h3>
+        <p class="mt-2">Fast and secure payments with buyer protection.</p>
+      </div>
+      <div class="text-center">
+        <Icon name="mdi:apple" class="mx-auto h-16 w-16" />
+        <h3 class="text-2xl font-medium mt-4">Apple Pay / Google Pay</h3>
+        <p class="mt-2">
+          Contactless payments for a quick checkout experience.
+        </p>
+      </div>
+    </div>
+
+    <script>
+      const { gsap } = await import("gsap");
+      const { ScrollTrigger } = await import("gsap/ScrollTrigger");
+      gsap.registerPlugin(ScrollTrigger);
+      gsap.from(".payment-methods-section h2, .payment-methods-section div", {
+        opacity: 0,
+        y: 20,
+        duration: 0.5,
+        stagger: 0.2,
+        scrollTrigger: {
+          trigger: ".payment-methods-section",
+          start: "top 80%",
+        },
+      });
+    </script>
+  </section>
+
+  <section
+    class="security-section py-12 px-4 md:px-8 lg:px-16 bg-slate-50 dark:bg-slate-800"
+  >
+    <h2 class="text-3xl font-semibold text-center mb-8">Payment Security</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div>
+        <h3 class="text-2xl font-medium mb-4">How We Protect Your Data</h3>
+        <ul class="list-disc pl-5 space-y-2">
+          <li>SSL encryption for all transactions.</li>
+          <li>PCI DSS compliant to safeguard card information.</li>
+          <li>Fraud detection systems to monitor for suspicious activity.</li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="text-2xl font-medium mb-4">Why Choose Us?</h3>
+        <p>
+          Our payment gateway partners ensure your information is handled with
+          the highest standards of security and privacy.
+        </p>
+        <p class="mt-2">
+          Rest assured, we never store sensitive payment details on our servers.
+        </p>
+      </div>
+    </div>
+
+    <script>
+      const { gsap } = await import("gsap");
+      const { ScrollTrigger } = await import("gsap/ScrollTrigger");
+      gsap.registerPlugin(ScrollTrigger);
+      gsap.from(
+        ".security-section h2, .security-section h3, .security-section ul",
+        {
+          opacity: 0,
+          y: 20,
+          duration: 0.5,
+          stagger: 0.2,
+          scrollTrigger: {
+            trigger: ".security-section",
+            start: "top 80%",
+          },
+        },
+      );
+    </script>
+  </section>
+
+  <section class="py-12 px-4 md:px-8 lg:px-16">
+    <h2 class="text-3xl font-semibold text-center mb-8">
+      Frequently Asked Questions
+    </h2>
+    <FAQ faqData={faqData} client:load />
+  </section>
+</IntroducLayout>

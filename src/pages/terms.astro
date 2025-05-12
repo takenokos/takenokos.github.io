@@ -1,221 +1,223 @@
 ---
-import BaseLayout from "../layouts/BaseLayout.astro"; // Reuse the base layout
-import { gsap } from "gsap"; // Import GSAP for animations
+import IntroducLayout from "../layouts/IntroducLayout.astro";
 ---
 
-<BaseLayout
+<IntroducLayout
   title="Terms of Service"
   description="Our terms and conditions for using the e-commerce site."
 >
-  <section class="max-w-4xl mx-auto">
-    <h1
-      class="text-3xl font-bold text-slate-900 dark:text-slate-100 mb-6 text-center"
+  <h1
+    class="text-3xl font-bold text-slate-900 dark:text-slate-100 mb-6 text-center"
+  >
+    Terms of Service
+  </h1>
+
+  <p class="text-slate-700 dark:text-slate-300 mb-4">
+    Last updated: [Insert Date, e.g., January 1, 2024]
+  </p>
+
+  <section class="motion-opacity-in motion-translate-x-in">
+    <h2
+      class="text-2xl font-semibold text-slate-800 dark:text-slate-200 mt-8 mb-4"
+      id="introduction"
     >
-      Terms of Service
-    </h1>
-
-    <div
-      class="motion-opacity-in motion-duration-800 motion-ease-spring-bouncier"
-    >
-      <p class="text-slate-700 dark:text-slate-300 mb-4">
-        Last updated: [Insert Date, e.g., January 1, 2024]
-      </p>
-
-      <h2
-        class="text-2xl font-semibold text-slate-800 dark:text-slate-200 mt-8 mb-4"
-        id="introduction"
-      >
-        Introduction
-      </h2>
-      <p class="text-slate-700 dark:text-slate-300 mb-4">
-        These Terms of Service ("Terms") govern your access to and use of our
-        e-commerce website and services. By accessing or using our site, you
-        agree to be bound by these Terms.
-      </p>
-
-      <h2
-        class="text-2xl font-semibold text-slate-800 dark:text-slate-200 mt-8 mb-4"
-        id="user-accounts"
-      >
-        User Accounts
-      </h2>
-      <p class="text-slate-700 dark:text-slate-300 mb-4">
-        To access certain features, you must create an account. You are
-        responsible for maintaining the confidentiality of your account
-        information and for all activities that occur under your account.
-      </p>
-
-      <h2
-        class="text-2xl font-semibold text-slate-800 dark:text-slate-200 mt-8 mb-4"
-        id="services"
-      >
-        Services and Products
-      </h2>
-      <p class="text-slate-700 dark:text-slate-300 mb-4">
-        We provide an online platform for purchasing products. All products are
-        subject to availability, and we reserve the right to modify or
-        discontinue any service at any time.
-      </p>
-
-      <h2
-        class="text-2xl font-semibold text-slate-800 dark:text-slate-200 mt-8 mb-4"
-        id="user-conduct"
-      >
-        User Conduct
-      </h2>
-      <p class="text-slate-700 dark:text-slate-300 mb-4">
-        You agree not to use the site for any unlawful purpose or in any way
-        that violates these Terms. Prohibited activities include hacking,
-        spamming, or uploading harmful content.
-      </p>
-
-      <h2
-        class="text-2xl font-semibold text-slate-800 dark:text-slate-200 mt-8 mb-4"
-        id="intellectual-property"
-      >
-        Intellectual Property
-      </h2>
-      <p class="text-slate-700 dark:text-slate-300 mb-4">
-        All content on this site, including text, graphics, logos, and images,
-        is our property or the property of our licensors and is protected by
-        intellectual property laws.
-      </p>
-
-      <h2
-        class="text-2xl font-semibold text-slate-800 dark:text-slate-200 mt-8 mb-4"
-        id="liability"
-      >
-        Limitation of Liability
-      </h2>
-      <p class="text-slate-700 dark:text-slate-300 mb-4">
-        We are not liable for any indirect, incidental, or consequential damages
-        arising from your use of the site. Our total liability is limited to the
-        amount you have paid for products.
-      </p>
-
-      <h2
-        class="text-2xl font-semibold text-slate-800 dark:text-slate-200 mt-8 mb-4"
-        id="termination"
-      >
-        Termination
-      </h2>
-      <p class="text-slate-700 dark:text-slate-300 mb-4">
-        We may terminate or suspend your access to the site at any time for any
-        reason, including breach of these Terms.
-      </p>
-
-      <h2
-        class="text-2xl font-semibold text-slate-800 dark:text-slate-200 mt-8 mb-4"
-        id="governing-law"
-      >
-        Governing Law
-      </h2>
-      <p class="text-slate-700 dark:text-slate-300 mb-4">
-        These Terms are governed by the laws of [Your Country/State], without
-        regard to conflict of law principles.
-      </p>
-
-      <h2
-        class="text-2xl font-semibold text-slate-800 dark:text-slate-200 mt-8 mb-4"
-        id="contact"
-      >
-        Contact Information
-      </h2>
-      <p class="text-slate-700 dark:text-slate-300 mb-4">
-        If you have any questions about these Terms, please contact us at
-        support@yourecommerce.com.
-      </p>
-    </div>
-
-    <!-- Anchor navigation -->
-    <nav class="mt-10">
-      <ul class="flex flex-wrap gap-4">
-        <li>
-          <a
-            href="#introduction"
-            class="text-indigo-600 dark:text-indigo-400 hover:underline"
-            >Introduction</a
-          >
-        </li>
-        <li>
-          <a
-            href="#user-accounts"
-            class="text-indigo-600 dark:text-indigo-400 hover:underline"
-            >User Accounts</a
-          >
-        </li>
-        <li>
-          <a
-            href="#services"
-            class="text-indigo-600 dark:text-indigo-400 hover:underline"
-            >Services</a
-          >
-        </li>
-        <li>
-          <a
-            href="#user-conduct"
-            class="text-indigo-600 dark:text-indigo-400 hover:underline"
-            >User Conduct</a
-          >
-        </li>
-        <li>
-          <a
-            href="#intellectual-property"
-            class="text-indigo-600 dark:text-indigo-400 hover:underline"
-            >Intellectual Property</a
-          >
-        </li>
-        <li>
-          <a
-            href="#liability"
-            class="text-indigo-600 dark:text-indigo-400 hover:underline"
-            >Limitation of Liability</a
-          >
-        </li>
-        <li>
-          <a
-            href="#termination"
-            class="text-indigo-600 dark:text-indigo-400 hover:underline"
-            >Termination</a
-          >
-        </li>
-        <li>
-          <a
-            href="#governing-law"
-            class="text-indigo-600 dark:text-indigo-400 hover:underline"
-            >Governing Law</a
-          >
-        </li>
-        <li>
-          <a
-            href="#contact"
-            class="text-indigo-600 dark:text-indigo-400 hover:underline"
-            >Contact</a
-          >
-        </li>
-      </ul>
-    </nav>
+      Introduction
+    </h2>
+    <p class="text-slate-700 dark:text-slate-300 mb-4">
+      These Terms of Service ("Terms") govern your access to and use of our
+      e-commerce website and services. By accessing or using our site, you agree
+      to be bound by these Terms.
+    </p>
   </section>
-  <script>
-    const { gsap } = await import("gsap");
-    const { ScrollToPlugin } = await import("gsap/ScrollToPlugin");
+  <section class="motion-opacity-in motion-translate-x-in motion-delay-200">
+    <h2
+      class="text-2xl font-semibold text-slate-800 dark:text-slate-200 mt-8 mb-4"
+      id="user-accounts"
+    >
+      User Accounts
+    </h2>
+    <p class="text-slate-700 dark:text-slate-300 mb-4">
+      To access certain features, you must create an account. You are
+      responsible for maintaining the confidentiality of your account
+      information and for all activities that occur under your account.
+    </p>
+  </section>
+  <section class="motion-opacity-in motion-translate-x-in motion-delay-400">
+    <h2
+      class="text-2xl font-semibold text-slate-800 dark:text-slate-200 mt-8 mb-4"
+      id="services"
+    >
+      Services and Products
+    </h2>
+    <p class="text-slate-700 dark:text-slate-300 mb-4">
+      We provide an online platform for purchasing products. All products are
+      subject to availability, and we reserve the right to modify or discontinue
+      any service at any time.
+    </p>
+  </section>
+  <section class="motion-opacity-in motion-translate-x-in motion-delay-600">
+    <h2
+      class="text-2xl font-semibold text-slate-800 dark:text-slate-200 mt-8 mb-4"
+      id="user-conduct"
+    >
+      User Conduct
+    </h2>
+    <p class="text-slate-700 dark:text-slate-300 mb-4">
+      You agree not to use the site for any unlawful purpose or in any way that
+      violates these Terms. Prohibited activities include hacking, spamming, or
+      uploading harmful content.
+    </p>
+  </section>
+  <section class="motion-opacity-in motion-translate-x-in motion-delay-800">
+    <h2
+      class="text-2xl font-semibold text-slate-800 dark:text-slate-200 mt-8 mb-4"
+      id="intellectual-property"
+    >
+      Intellectual Property
+    </h2>
+    <p class="text-slate-700 dark:text-slate-300 mb-4">
+      All content on this site, including text, graphics, logos, and images, is
+      our property or the property of our licensors and is protected by
+      intellectual property laws.
+    </p>
+  </section>
+  <section class="motion-opacity-in motion-translate-x-in motion-delay-1000">
+    <h2
+      class="text-2xl font-semibold text-slate-800 dark:text-slate-200 mt-8 mb-4"
+      id="liability"
+    >
+      Limitation of Liability
+    </h2>
+    <p class="text-slate-700 dark:text-slate-300 mb-4">
+      We are not liable for any indirect, incidental, or consequential damages
+      arising from your use of the site. Our total liability is limited to the
+      amount you have paid for products.
+    </p>
+  </section>
+  <section class="motion-opacity-in motion-translate-x-in motion-delay-1200">
+    <h2
+      class="text-2xl font-semibold text-slate-800 dark:text-slate-200 mt-8 mb-4"
+      id="termination"
+    >
+      Termination
+    </h2>
+    <p class="text-slate-700 dark:text-slate-300 mb-4">
+      We may terminate or suspend your access to the site at any time for any
+      reason, including breach of these Terms.
+    </p>
+  </section>
+  <section class="motion-opacity-in motion-translate-x-in motion-delay-1400">
+    <h2
+      class="text-2xl font-semibold text-slate-800 dark:text-slate-200 mt-8 mb-4"
+      id="governing-law"
+    >
+      Governing Law
+    </h2>
+    <p class="text-slate-700 dark:text-slate-300 mb-4">
+      These Terms are governed by the laws of [Your Country/State], without
+      regard to conflict of law principles.
+    </p>
+  </section>
+  <section class="motion-opacity-in motion-translate-x-in motion-delay-1600">
+    <h2
+      class="text-2xl font-semibold text-slate-800 dark:text-slate-200 mt-8 mb-4"
+      id="contact"
+    >
+      Contact Information
+    </h2>
+    <p class="text-slate-700 dark:text-slate-300 mb-4">
+      If you have any questions about these Terms, please contact us at
+      support@yourecommerce.com.
+    </p>
+  </section>
 
-    gsap.registerPlugin(ScrollToPlugin);
+  <nav class="mt-10 motion-opacity-in motion-translate-y-in motion-delay-1400">
+    <ul class="flex flex-wrap gap-4">
+      <li>
+        <a
+          href="#introduction"
+          class="text-indigo-600 dark:text-indigo-400 hover:underline"
+          >Introduction</a
+        >
+      </li>
+      <li>
+        <a
+          href="#user-accounts"
+          class="text-indigo-600 dark:text-indigo-400 hover:underline"
+          >User Accounts</a
+        >
+      </li>
+      <li>
+        <a
+          href="#services"
+          class="text-indigo-600 dark:text-indigo-400 hover:underline"
+          >Services</a
+        >
+      </li>
+      <li>
+        <a
+          href="#user-conduct"
+          class="text-indigo-600 dark:text-indigo-400 hover:underline"
+          >User Conduct</a
+        >
+      </li>
+      <li>
+        <a
+          href="#intellectual-property"
+          class="text-indigo-600 dark:text-indigo-400 hover:underline"
+          >Intellectual Property</a
+        >
+      </li>
+      <li>
+        <a
+          href="#liability"
+          class="text-indigo-600 dark:text-indigo-400 hover:underline"
+          >Limitation of Liability</a
+        >
+      </li>
+      <li>
+        <a
+          href="#termination"
+          class="text-indigo-600 dark:text-indigo-400 hover:underline"
+          >Termination</a
+        >
+      </li>
+      <li>
+        <a
+          href="#governing-law"
+          class="text-indigo-600 dark:text-indigo-400 hover:underline"
+          >Governing Law</a
+        >
+      </li>
+      <li>
+        <a
+          href="#contact"
+          class="text-indigo-600 dark:text-indigo-400 hover:underline"
+          >Contact</a
+        >
+      </li>
+    </ul>
+  </nav>
+</IntroducLayout>
+<script>
+  const { gsap } = await import("gsap");
+  const { ScrollToPlugin } = await import("gsap/ScrollToPlugin");
 
-    const links = document.querySelectorAll('nav a[href^="#"]'); // 选择所有以#开头的链接
-    links.forEach((link) => {
-      link.addEventListener("click", (e: Event) => {
-        e.preventDefault(); // 阻止默认跳转
-        const target = e.currentTarget as Element;
-        const targetId = target.getAttribute("href");
-        if (targetId) {
-          gsap.to(window, {
-            duration: 0.8,
-            scrollTo: { y: targetId, offsetY: 150 },
-            ease: "power3.out",
-          });
-        }
-      });
+  gsap.registerPlugin(ScrollToPlugin);
+
+  const links = document.querySelectorAll('nav a[href^="#"]'); // 选择所有以#开头的链接
+  links.forEach((link) => {
+    link.addEventListener("click", (e: Event) => {
+      e.preventDefault(); // 阻止默认跳转
+      const target = e.currentTarget as Element;
+      const targetId = target.getAttribute("href");
+      if (targetId) {
+        gsap.to(window, {
+          duration: 0.8,
+          scrollTo: { y: targetId, offsetY: 150 },
+          ease: "power3.out",
+        });
+      }
     });
-  </script>
-</BaseLayout>
+  });
+</script>

@@ -19,8 +19,14 @@ export default defineConfig({
   integrations: [preact({ compat: true }), sitemap(), icon(), auth()],
   output: 'server',
   vite: {
-    plugins: [tailwindcss()]
+    plugins: [tailwindcss()],
+     resolve: {
+      alias: {
+        '@': '/src',
+        '@db':'/src/db',
+      }
+    }
   },
 
-  adapter: netlify()
+  adapter: netlify({ edgeMiddleware: true })
 });

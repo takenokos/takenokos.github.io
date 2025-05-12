@@ -1,5 +1,5 @@
 ---
-import BaseLayout from "../layouts/BaseLayout.astro";
+import IntroducLayout from "../layouts/IntroducLayout.astro";
 import koraImg from "../images/team/kora.jpg";
 import takenokosImg from "../images/team/takenokos.jpg";
 const pageTitle = "About Us";
@@ -13,8 +13,8 @@ const teamMembers = [
 ];
 ---
 
-<BaseLayout pageTitle={pageTitle}>
-  <article class="mx-auto max-w-4xl">
+<IntroducLayout pageTitle={pageTitle}>
+  <article>
     <section class="text-center">
       <h1
         class="text-4xl font-bold motion-opacity-in -motion-translate-y-in-50 motion-duration-1000 motion-ease-spring-bouncier"
@@ -87,4 +87,4 @@ const teamMembers = [
       </button>
     </section>
   </article>
-</BaseLayout>
+</IntroducLayout>

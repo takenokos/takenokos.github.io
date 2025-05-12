@@ -1,6 +1,7 @@
 ---
 import { getCollection, render } from "astro:content";
 import MarkdownLayout from "../../layouts/MarkdownLayout.astro";
+export const prerender = true;
 export async function getStaticPaths() {
   const posts = await getCollection("blog");
   return posts.map((post: any) => ({

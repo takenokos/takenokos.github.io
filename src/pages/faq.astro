@@ -1,12 +1,11 @@
 ---
-import BaseLayout from "../layouts/BaseLayout.astro";
+import IntroducLayout from "../layouts/IntroducLayout.astro";
 import FAQ from "../components/preact/FAQ.tsx";
 
 const pageTitle = "FAQ ";
 const pageDescription =
   "Frequently asked questions about our products, shipping, and returns.";
 
-// FAQ data as static array (can be fetched from API in future)
 const faqData = [
   {
     question: "What is your return policy?",
@@ -25,8 +24,8 @@ const faqData = [
 ];
 ---
 
-<BaseLayout pageTitle={pageTitle} pageDescription={pageDescription}>
-  <section class="max-w-4xl mx-auto">
+<IntroducLayout pageTitle={pageTitle} pageDescription={pageDescription}>
+  <section>
     <div class="container mx-auto px-4 lg:px-0">
       <h1
         class="text-3xl font-bold text-center mb-8 motion-opacity-in -motion-translate-y-in-50 motion-duration-1000 motion-ease-spring-bouncier"
@@ -39,7 +38,14 @@ const faqData = [
         Find answers to common questions about our e-commerce site.
       </p>
 
-      <FAQ faqData={faqData} client:load />
+      <FAQ
+        faqData={faqData}
+        accordion
+        class="motion-opacity-in motion-translate-x-in"
+        itemClass="border border-slate-200 dark:border-slate-700 rounded-lg"
+        triggerClass="bg-slate-100 dark:bg-slate-700  hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors"
+        client:load
+      />
     </div>
   </section>
-</BaseLayout>
+</IntroducLayout>
