@@ -9,8 +9,8 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/netlify": "^6.3.1",
-    "@astrojs/preact": "^4.0.10",
+    "@astrojs/netlify": "^6.3.2",
+    "@astrojs/preact": "^4.0.11",
     "@astrojs/rss": "^4.0.11",
     "@astrojs/sitemap": "^3.3.1",
     "@auth/core": "^0.39.0",
@@ -18,7 +18,7 @@
     "@iconify-json/line-md": "^1.2.7",
     "@iconify-json/mdi": "^1.2.3",
     "@tailwindcss/vite": "^4.0.17",
-    "astro": "^5.7.5",
+    "astro": "^5.7.12",
     "astro-icon": "^1.1.5",
     "auth-astro": "^4.2.0",
     "cookie": "^1.0.2",
