@@ -9,17 +9,23 @@ export default defineConfig({
   adapter: DrizzleAdapter(db),
   providers: [
     GitHub({
-      clientId:import.meta.env.AUTH_GITHUB_ID,
-      clientSecret:import.meta.env.AUTH_GITHUB_SECRET
+      clientId: import.meta.env.AUTH_GITHUB_ID,
+      clientSecret: import.meta.env.AUTH_GITHUB_SECRET
     }),
     Google({
-      clientId:import.meta.env.AUTH_GOOGLE_ID,
-      clientSecret:import.meta.env.AUTH_GOOGLE_SECRET
+      clientId: import.meta.env.AUTH_GOOGLE_ID,
+      clientSecret: import.meta.env.AUTH_GOOGLE_SECRET
     })
   ],
   callbacks: {
     redirect: ({ baseUrl }) => {
       return baseUrl + '/'
+    },
+    session({ session }) {
+      // if (session.user) {
+      //   session.user.id = user.id;
+      // }
+      return session;
     }
   }
 });

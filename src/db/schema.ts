@@ -34,6 +34,7 @@ export const accounts = pgTable(
   "account",
   {
     userId: text("userId")
+      .primaryKey()
       .notNull()
       .references(() => users.id, { onDelete: "cascade" }),
     type: text("type").$type<AdapterAccountType>().notNull(),
@@ -108,7 +109,7 @@ export const subscribers = pgTable('subscribers', {
     .primaryKey()
     .$defaultFn(() => crypto.randomUUID()),
   email: text('email').notNull().unique(),
-  created_at: timestamp('created_at').defaultNow(),
+  createdAt: timestamp('created_at').defaultNow(),
   status: text('status').default('active').notNull(),
 });
 
@@ -119,6 +120,16 @@ export const contactMessages = pgTable('contact_messages', {
   name: text('name').notNull(),
   email: text('email').notNull(),
   message: text('message').notNull(),
-  created_at: timestamp('created_at').defaultNow(),
+  createdAt: timestamp('created_at').defaultNow(),
   status: text('status').default('pending').notNull(),
+});
+
+export const comments = pgTable('comments', {
+  id: text('id')
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+  postId: text('post_id').notNull(),
+  userId: text('user_id',).notNull(),
+  commentText: text('comment_text').notNull(),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
 });

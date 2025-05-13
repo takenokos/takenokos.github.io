@@ -2,13 +2,12 @@
 import HeaderUserDropdown from "./preact/HeaderUserDropdown.tsx";
 import { getSession } from "auth-astro/server";
 const session = await getSession(Astro.request);
-console.log("session", session);
 ---
 
 <div>
   {
     session ? (
-      <HeaderUserDropdown client:visible session={session} />
+      <HeaderUserDropdown client:visible username={session?.user?.name} />
     ) : (
       <a
         href="/login"

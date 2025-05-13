@@ -1,16 +1,18 @@
 ---
 import { getCollection, render } from "astro:content";
 import MarkdownLayout from "../../layouts/MarkdownLayout.astro";
-export const prerender = true;
-export async function getStaticPaths() {
-  const posts = await getCollection("blog");
-  return posts.map((post: any) => ({
-    params: { slug: post.id },
-    props: { post },
-  }));
+
+const slug = Astro.params.slug;
+const posts = await getCollection("blog");
+const post = posts.find(
+  (p) => p.id === (Array.isArray(slug) ? slug.join("/") : slug),
+);
+
+if (!post) {
+  // 返回 404
+  return new Response(null, { status: 404 });
 }
 
-const { post }: any = Astro.props;
 const { Content } = await render(post);
 ---
 

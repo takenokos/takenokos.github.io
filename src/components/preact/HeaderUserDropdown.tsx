@@ -5,7 +5,7 @@ import {
   DropdownMenuItem,
 } from "./Dropdown.tsx";
 import { signOut } from "auth-astro/client";
-export default function HeaderUserDropdown({ session }: any) {
+export default function HeaderUserDropdown({ username }: { username?: string | null }) {
   const handleSelect = (val: any) => {
     switch (val) {
       case 'logout':
@@ -18,7 +18,7 @@ export default function HeaderUserDropdown({ session }: any) {
   return (
     <Dropdown >
       <DropdownTrigger >
-        Welcome {session.user?.name}
+        Welcome {username}
       </DropdownTrigger>
       <DropdownMenu >
         <DropdownMenuItem class="text-red-500 bg-red-500/40 hover:bg-red-500/30" value="logout" onSelect={handleSelect}>
