@@ -1,7 +1,7 @@
 import { defaultValueCtx, Editor, rootCtx, editorViewOptionsCtx } from '@milkdown/kit/core';
 import { listener, listenerCtx } from "@milkdown/kit/plugin/listener";
 import { commonmark } from '@milkdown/kit/preset/commonmark';
-import * as pkg from 'milkdown-plugin-placeholder';
+import { placeholderCtx, placeholder as placeholderPlugin } from 'milkdown-plugin-placeholder';
 import { Milkdown, MilkdownProvider, useEditor } from "@milkdown/react";
 import '@/styles/milkdown.css'
 interface MdEditorProps {
@@ -12,8 +12,6 @@ interface MdEditorProps {
 
 const MilkdownEditor = ({ value, setValue, placeholder }: MdEditorProps) => {
   useEditor((root) => {
-    const placeholderCtx = pkg.placeholderCtx
-    const placeholderPlugin = pkg.placeholder
     const editor = Editor
       .make()
       .config(ctx => {
