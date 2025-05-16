@@ -4,6 +4,6 @@ export default defineConfig({
   schema: './src/db/schema.ts',
   dialect: 'postgresql',
   dbCredentials: {
-    url: process.env.AUTH_DRIZZLE_URL!,
+    url: process.env.POSTGRESQL_URL!,
   },
 });

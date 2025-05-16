@@ -24,7 +24,7 @@ const MilkdownEditor = ({ value, setValue, placeholder }: MdEditorProps) => {
         ctx.set(placeholderCtx, placeholder || '')
         const listener = ctx.get(listenerCtx);
 
-        listener.markdownUpdated((ctx, markdown, prevMarkdown) => {
+        listener.markdownUpdated((_ctx, markdown, prevMarkdown) => {
           if (markdown !== prevMarkdown) {
             setValue(markdown);
           }

@@ -101,7 +101,7 @@ export default function ContactForm() {
   return (
     <form onSubmit={handleSubmit} class="space-y-4">
       {submitMessage && (
-        <div class={`p-3 rounded ${submitMessage.includes('Error') ? 'bg-red-100 text-red-700' : 'bg-emerald-100 text-emerald-700'}`}>
+        <div class={`p-3 rounded motion-opacity-in motion-translate-y-in ${submitMessage.includes('Error') ? 'bg-red-100 text-red-700' : 'bg-emerald-100 text-emerald-700'}`}>
           {submitMessage}
         </div>
       )}

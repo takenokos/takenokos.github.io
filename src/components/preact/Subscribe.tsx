@@ -35,7 +35,7 @@ export default function Subscribe() {
         <input
           type="email"
           value={email}
-          onInput={(e: any) => setEmail(e.target.value)}
+          onInput={(e: Event) => setEmail((e.target as HTMLInputElement).value)}
           placeholder="Enter your email"
           class="px-4 py-2 rounded-l-full bg-slate-200 dark:bg-slate-700 focus:outline-none text-slate-950 dark:text-slate-50"
           required

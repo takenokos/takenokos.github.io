@@ -6,7 +6,7 @@ import {
 } from "./Dropdown.tsx";
 import { signOut } from "auth-astro/client";
 export default function HeaderUserDropdown({ username }: { username?: string | null }) {
-  const handleSelect = (val: any) => {
+  const handleSelect = (val: string | number) => {
     switch (val) {
       case 'logout':
         signOut()
