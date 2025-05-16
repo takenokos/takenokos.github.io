@@ -19,11 +19,14 @@ export default defineConfig({
   integrations: [preact({ compat: true }), sitemap(), icon(), auth()],
   output: 'server',
   vite: {
+    ssr: {
+      noExternal: ['gsap']
+    },
     plugins: [tailwindcss()],
-     resolve: {
+    resolve: {
       alias: {
         '@': '/src',
-        '@db':'/src/db',
+        '@db': '/src/db',
       }
     }
   },
