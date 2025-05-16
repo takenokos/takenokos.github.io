@@ -1,0 +1,141 @@
+---
+import IntroducLayout from "../layouts/IntroducLayout.astro";
+import FAQ from "@components/preact/FAQ.tsx";
+
+const pageTitle = "Shipping & Returns Policy ";
+const pageDescription =
+  "Learn about our shipping options, delivery times, and hassle-free returns policy. We ensure your satisfaction with every purchase.";
+
+const faqData = [
+  {
+    question: "What if my item arrives damaged?",
+    answer: "Contact us immediately for a replacement or refund.",
+  },
+  {
+    question: "Can I change my shipping address after ordering?",
+    answer:
+      "Yes, as long as the order hasn't been shipped. Log in to your account to update.",
+  },
+  {
+    question: "How long do I have to return an item?",
+    answer: "You have 30 days from the delivery date.",
+  },
+];
+---
+
+<IntroducLayout title={pageTitle} description={pageDescription}>
+  <section class="py-16 text-center">
+    <h1 class="text-4xl font-bold">Shipping & Returns Policy</h1>
+    <p class="mt-4 text-xl">
+      Fast, reliable shipping and easy returns for your peace of mind.
+    </p>
+    <div
+      class="mt-8 motion-opacity-in motion-translate-y-in-50 motion-duration-800 motion-ease-spring-bouncier"
+    >
+      <p class="text-lg">
+        We ship worldwide with trusted carriers. Returns are accepted within 30
+        days.
+      </p>
+    </div>
+  </section>
+
+  <section class="shipping-section py-12 px-4 md:px-8 lg:px-16">
+    <h2 class="text-3xl font-semibold text-center mb-8">Shipping Policy</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div>
+        <h3 class="text-2xl font-medium mb-4">Shipping Methods</h3>
+        <ul class="list-disc pl-5 space-y-2">
+          <li>
+            Standard Shipping: 5-7 business days, free for orders over $50.
+          </li>
+          <li>Express Shipping: 2-3 business days, $10 flat rate.</li>
+          <li>
+            International Shipping: 7-14 business days, rates vary by location.
+          </li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="text-2xl font-medium mb-4">Delivery Times</h3>
+        <p>
+          Orders are processed within 1-2 business days. Use our tracking tool
+          to monitor your shipment.
+        </p>
+        <p class="mt-2">Tracking: Available via email after dispatch.</p>
+      </div>
+    </div>
+
+    <script>
+      const { gsap } = await import("gsap");
+      const { ScrollTrigger } = await import("gsap/ScrollTrigger");
+      gsap.registerPlugin(ScrollTrigger);
+
+      gsap.from(
+        ".shipping-section h2, .shipping-section h3, .shipping-section ul",
+        {
+          opacity: 0,
+          y: 20,
+          duration: 0.5,
+          stagger: 0.2,
+          scrollTrigger: {
+            trigger: ".shipping-section",
+            start: "top 80%",
+          },
+        },
+      );
+    </script>
+  </section>
+
+  <section
+    class="returns-section py-12 px-4 md:px-8 lg:px-16 bg-slate-50 dark:bg-slate-800 rounded"
+  >
+    <h2 class="text-3xl font-semibold text-center mb-8">Returns Policy</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div>
+        <h3 class="text-2xl font-medium mb-4">Return Eligibility</h3>
+        <ul class="list-disc pl-5 space-y-2">
+          <li>Items must be unused and in original packaging.</li>
+          <li>Returns accepted within 30 days of delivery.</li>
+          <li>Exclusions: Personalized items or final sale products.</li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="text-2xl font-medium mb-4">Return Process</h3>
+        <ol class="list-decimal pl-5 space-y-2">
+          <li>Log in to your account and initiate a return request.</li>
+          <li>Pack the item securely and include the original receipt.</li>
+          <li>
+            Ship it back using the provided label; we'll cover costs for
+            eligible returns.
+          </li>
+          <li>Refunds processed within 5-7 business days.</li>
+        </ol>
+      </div>
+    </div>
+
+    <script>
+      const { gsap } = await import("gsap");
+      const { ScrollTrigger } = await import("gsap/ScrollTrigger");
+      gsap.registerPlugin(ScrollTrigger);
+      gsap.from(
+        ".returns-section h2, .returns-section h3, .returns-section ol",
+        {
+          opacity: 0,
+          y: 20,
+          duration: 0.5,
+          stagger: 0.2,
+          scrollTrigger: {
+            trigger: ".returns-section",
+            start: "top 80%",
+          },
+        },
+      );
+    </script>
+  </section>
+
+  <section class="py-12 px-4 md:px-8 lg:px-16">
+    <h2 class="text-3xl font-semibold text-center mb-8">
+      Frequently Asked Questions
+    </h2>
+    <FAQ faqData={faqData} client:load />
+  </section>
+</IntroducLayout>

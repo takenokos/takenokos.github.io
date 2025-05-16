@@ -1,16 +1,110 @@
 ---
-import Social from "./Social.astro";
+import { Icon } from "astro-icon/components";
+import Subscribe from "@components/preact/Subscribe";
+const date = new Date().toLocaleString();
 ---
 
-<style>
-  footer {
-    display: flex;
-    gap: 1rem;
-    margin-top: 2rem;
-  }
-</style>
-<footer>
-  <Social platform="x" username="takenokos_" />
-  <Social platform="github" username="takenokos" />
-  <Social platform="youtube" username="@takenokos" />
+<footer class="lg:px-20 lg:py-10 md:px-10 md:py-5 px-5 py-2.5">
+  <div
+    class="container mx-auto grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-8 footer-content text-slate-600 dark:text-slate-400"
+  >
+    <div class="space-y-4 motion-opacity-in motion-translate-y-in-100">
+      <h3 class="text-xl font-bold text-slate-950 dark:text-slate-50">
+        About Us
+      </h3>
+      <p class="">
+        We provide premium products with fast shipping and secure payments. Join
+        us in delivering quality to your doorstep.
+      </p>
+      <div class="flex space-x-4">
+        <a href="#" class="hover:text-white">
+          <Icon name="line-md:facebook" />
+        </a>
+        <a href="#" class="hover:text-white">
+          <Icon name="line-md:twitter-x" />
+        </a>
+        <a href="#" class="hover:text-white">
+          <Icon name="line-md:instagram" />
+        </a>
+      </div>
+    </div>
+
+    <div
+      class="space-y-4 motion-opacity-in motion-translate-y-in-100 motion-delay-100"
+    >
+      <h3 class="text-xl font-bold text-slate-950 dark:text-slate-50">
+        Quick Links
+      </h3>
+      <ul class="space-y-2">
+        <li>
+          <a href="/about" class="hover:text-white">About Us</a>
+        </li>
+        <li>
+          <a href="/contact" class="hover:text-white">Contact</a>
+        </li>
+        <li>
+          <a href="/privacy" class="hover:text-white"> Privacy Policy </a>
+        </li>
+        <li>
+          <a href="/terms" class="hover:text-white"> Terms of Service </a>
+        </li>
+      </ul>
+    </div>
+
+    <div
+      class="space-y-4 motion-opacity-in motion-translate-y-in-100 motion-delay-200"
+    >
+      <h3 class="text-xl font-bold text-slate-950 dark:text-slate-50">
+        Customer Service
+      </h3>
+      <ul class="space-y-2">
+        <li><a href="/faq" class="hover:text-white">FAQ</a></li>
+        <li>
+          <a href="/shipping" class="hover:text-white"> Shipping & Returns </a>
+        </li>
+        <li>
+          <a href="/payment" class="hover:text-white"> Payment Methods </a>
+        </li>
+      </ul>
+    </div>
+
+    <div
+      class="space-y-4 motion-opacity-in motion-translate-y-in-100 motion-delay-300"
+    >
+      <h3 class="text-xl font-bold text-slate-950 dark:text-slate-50">
+        Subscribe
+      </h3>
+      <p class="">Get the latest updates and offers.</p>
+      <Subscribe client:load />
+    </div>
+  </div>
+
+  <!-- <div class="mx-auto px-4 mt-8 text-center footer-content text-xs"> -->
+  <!-- <p>&copy; 2025 BrandName. All rights reserved.</p> -->
+  <!-- <div class="flex justify-center space-x-4 mt-4"> -->
+  <!-- <img -->
+  <!-- src="/path/to/stripe-badge.png" -->
+  <!-- alt="Secure payments with Stripe" -->
+  <!-- class="h-8" -->
+  <!-- loading="lazy" -->
+  <!-- /> -->
+  <!-- <img -->
+  <!-- src="/path/to/alipay-badge.png" -->
+  <!-- alt="Payments via Alipay" -->
+  <!-- class="h-8" -->
+  <!-- loading="lazy" -->
+  <!-- /> -->
+  <!-- </div> -->
+  <!-- </div> -->
+  <p class="text-center mt-8 text-slate-600 dark:text-slate-400">
+    <a
+      href="https://github.com/takenokos"
+      target="_blank"
+      class="text-xs inline-flex md:gap-3 flex-col md:flex-row"
+    >
+      <span>Made with ♡ by takenokos</span>
+      <span class="hidden md:block">|</span>
+      <span>{date}</span>
+    </a>
+  </p>
 </footer>

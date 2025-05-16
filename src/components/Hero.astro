@@ -1,0 +1,30 @@
+---
+import bg from "../images/bg.png";
+---
+
+<section
+  class="hero-section relative h-screen flex items-center justify-center overflow-hidden"
+>
+  <div
+    class="absolute inset-0 bg-cover bg-center opacity-30"
+    style={{ "background-image": `url(${bg.src})` }}
+  >
+  </div>
+
+  <div class="relative z-10 text-center px-4">
+    <h1
+      class="hero-title text-4xl md:text-6xl font-bold text-white transition -motion-translate-x-in-100 motion-opacity-in motion-duration-1000 motion-ease-spring-bouncy"
+    >
+      Discover Premium Products
+    </h1>
+    <p
+      class="hero-subtitle text-xl md:text-2xl text-slate-200 mt-4 -motion-translate-y-in-50 motion-opacity-in motion-delay-500 motion-duration-800 motion-ease-spring-snappy"
+    >
+      Shop the latest trends with fast shipping and secure payments.
+    </p>
+    <button
+      class="mt-8 px-6 py-3 bg-white text-indigo-600 rounded-full font-semibold hover:bg-slate-100 cursor-pointer motion-scale-in-80 motion-opacity-in motion-delay-1000 motion-duration-700 motion-ease-spring-bouncier"
+      >Shop Now
+    </button>
+  </div>
+</section>

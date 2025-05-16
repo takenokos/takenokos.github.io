@@ -1,0 +1,9 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import ProductDetail from "@components/preact/ProductDetail";
+const { slug } = Astro.params;
+---
+
+<BaseLayout pageTitle="Product Detail">
+  <ProductDetail slug={slug} client:load />
+</BaseLayout>

@@ -1,13 +1,14 @@
 ---
-import BaseLayout from "../layouts/BaseLayout.astro";
-import Greeting from "../components/Greeting.jsx";
+import HomeLayout from "../layouts/HomeLayout.astro";
+import Hero from "../components/Hero.astro";
+// import Greeting from "../components/preact/Greeting.jsx";
 const pageTitle = "Home Page";
 ---
 
-<BaseLayout pageTitle={pageTitle}>
-  <h2 class="text-2xl">My awesome blog subtitle</h2>
-  <Greeting
-    client:load
-    messages={["Hi", "Hello", "Hey", "Howdy", "Hey there"]}
-  />
-</BaseLayout>
+<HomeLayout pageTitle={pageTitle}>
+  <Hero slot="hero" />
+  <!-- <Greeting -->
+  <!-- client:load -->
+  <!-- messages={["Hi", "Hello", "Hey", "Howdy", "Hey there"]} -->
+  <!-- /> -->
+</HomeLayout>

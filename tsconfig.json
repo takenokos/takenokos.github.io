@@ -10,6 +10,12 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
+      "@/*": [
+        "src/*"
+      ],
+      "@db/*": [
+        "src/db/*"
+      ],
       "@components/*": [
         "src/components/*"
       ],
@@ -18,6 +24,11 @@
       ]
     },
     "jsx": "react-jsx",
-    "jsxImportSource": "preact"
+    "jsxImportSource": "preact",
+    "plugins": [
+      {
+        "name": "@astrojs/ts-plugin"
+      }
+    ]
   }
 }

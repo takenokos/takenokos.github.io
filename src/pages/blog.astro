@@ -1,18 +1,15 @@
 ---
-import { getCollection } from "astro:content";
-import BaseLayout from "../layouts/BaseLayout.astro";
-import BlogPost from "../components/BlogPost.astro";
-const allPosts = await getCollection("blog");
-const pageTitle = "My Blog";
+import { getCollection, type CollectionEntry } from "astro:content";
+import DefaultLayout from "../layouts/DefaultLayout.astro";
+import BlogContainer from "@components/preact/BlogContainer";
+
+const allPosts: CollectionEntry<"blog">[] = await getCollection("blog");
+
+const pageTitle: string = "My Blog";
+const pageDescription: string =
+  "Explore my journey learning Astro, with posts grouped by date and filtered by tags.";
 ---
 
-<BaseLayout pageTitle={pageTitle}>
-  <p>This is where I will post about my journey learning Astro.</p>
-  <ul>
-    {
-      allPosts.map((post: any) => (
-        <BlogPost url={`/posts/${post.id}`} title={post.data.title} />
-      ))
-    }
-  </ul>
-</BaseLayout>
+<DefaultLayout pageTitle={pageTitle} description={pageDescription}>
+  <BlogContainer allPosts={allPosts} client:load />
+</DefaultLayout>

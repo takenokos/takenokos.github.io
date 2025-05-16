@@ -1,0 +1,14 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+const { pageTitle, pageDescription } = Astro.props;
+---
+
+<BaseLayout pageTitle={pageTitle} pageDescription={pageDescription}>
+  <main class="flex-1 lg:px-20 lg:py-10 md:px-10 md:py-5 px-5 py-2.5">
+    <div class="container mx-auto max-w-4xl">
+      <article>
+        <slot />
+      </article>
+    </div>
+  </main>
+</BaseLayout>

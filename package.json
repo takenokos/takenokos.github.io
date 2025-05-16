@@ -9,16 +9,41 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/preact": "^4.0.9",
+    "@astrojs/netlify": "^6.3.2",
+    "@astrojs/preact": "^4.0.11",
     "@astrojs/rss": "^4.0.11",
+    "@astrojs/sitemap": "^3.3.1",
+    "@auth/core": "^0.39.1",
+    "@auth/drizzle-adapter": "^1.9.0",
+    "@iconify-json/line-md": "^1.2.7",
+    "@iconify-json/mdi": "^1.2.3",
+    "@milkdown/kit": "^7.10.2",
+    "@milkdown/react": "^7.10.2",
     "@tailwindcss/vite": "^4.0.17",
-    "astro": "^5.7.4",
+    "astro": "^5.7.12",
+    "astro-icon": "^1.1.5",
+    "auth-astro": "^4.2.0",
+    "cookie": "^1.0.2",
+    "dompurify": "^3.2.5",
+    "drizzle-orm": "^0.43.1",
+    "gsap": "^3.12.7",
+    "marked": "^15.0.11",
+    "milkdown-plugin-placeholder": "^0.2.1",
+    "pg": "^8.15.6",
+    "postgres": "^3.4.5",
     "preact": "^10.26.4",
+    "react": "npm:@preact/compat@^18.3.1",
+    "react-dom": "npm:@preact/compat@^18.3.1",
     "tailwindcss": "^4.0.17"
   },
   "devDependencies": {
+    "@astrojs/ts-plugin": "^1.10.4",
+    "@iconify-icon/react": "^2.3.0",
     "@tailwindcss/typography": "^0.5.16",
+    "@types/pg": "^8.11.14",
+    "drizzle-kit": "^0.31.0",
     "prettier": "3.5.3",
-    "prettier-plugin-astro": "0.14.1"
+    "prettier-plugin-astro": "0.14.1",
+    "tailwindcss-motion": "^1.1.0"
   }
 }

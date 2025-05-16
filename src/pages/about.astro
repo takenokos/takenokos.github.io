@@ -1,92 +1,90 @@
 ---
-import BaseLayout from "../layouts/BaseLayout.astro";
-const pageTitle = "About Me";
-const identity = {
-  firstName: "takenokos",
-  country: "China",
-  occupation: "Web Developer",
-  hobbies: ["anime", "game", "novel"],
-};
-const skills = ["HTML", "CSS", "JavaScript"];
-
-const happy = true;
-const finished = true;
-const goal = 3;
-
-const operatingSystem = "MacOS";
-const quantity = 3;
-const footwear = "boots";
-const student = false;
-
-const skillColor = "navy";
-const fontWeight = "blod";
-const textCase = "uppercase";
+import IntroducLayout from "../layouts/IntroducLayout.astro";
+import koraImg from "../images/team/kora.jpg";
+import takenokosImg from "../images/team/takenokos.jpg";
+const pageTitle = "About Us";
+const teamMembers = [
+  { name: "Kora", role: "Founder", image: koraImg.src },
+  {
+    name: "takenokos",
+    role: "Lead Developer",
+    image: takenokosImg.src,
+  },
+];
 ---
 
-<style define:vars={{ skillColor, fontWeight, textCase }}>
-  h1 {
-    color: purple;
-    font-size: 4rem;
-  }
-  .skill {
-    color: var(--skillColor);
-    font-weight: var(--fontWeight);
-    text-transform: var(--textCase);
-  }
-</style>
+<IntroducLayout pageTitle={pageTitle}>
+  <article>
+    <section class="text-center">
+      <h1
+        class="text-4xl font-bold motion-opacity-in -motion-translate-y-in-50 motion-duration-1000 motion-ease-spring-bouncier"
+      >
+        About Us
+      </h1>
+      <p
+        class="mt-4 text-xl motion-opacity-in -motion-translate-x-in-25 motion-duration-1000 motion-ease-spring-bouncier"
+      >
+        Discover the story behind our e-commerce journey
+      </p>
+    </section>
+    <section
+      class="mb-12 motion-opacity-in motion-translate-y-in-30 motion-duration-800 motion-delay-300 motion-ease-spring-bouncy transition-all"
+    >
+      <h2 class="text-3xl font-semibold text-slate-900 dark:text-white mb-6">
+        Our Story
+      </h2>
+      <p class="text-slate-700 dark:text-slate-300 leading-relaxed">
+        Founded in 2023, we started as a small team passionate about bringing
+        high-quality products to customers worldwide. Our mission is to provide
+        seamless shopping experiences with fast delivery and exceptional
+        customer service.
+      </p>
+    </section>
 
-<BaseLayout pageTitle={pageTitle}>
-  <h2>...and my Astro site!</h2>
+    <section
+      class="mb-12 motion-opacity-in motion-translate-y-in-30 motion-duration-800 motion-delay-600 motion-ease-spring-bouncy"
+    >
+      <h2 class="text-3xl font-semibold text-slate-900 dark:text-white mb-6">
+        Our Team
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {
+          teamMembers.map((member) => (
+            <div class="bg-white dark:bg-slate-800 rounded-lg shadow-md overflow-hidden transition-transform duration-300 hover:scale-105">
+              <img
+                src={member.image}
+                alt={member.name}
+                class="w-full h-48 object-cover my-0!"
+                loading="lazy"
+              />
+              <div class="p-3">
+                <h3 class="text-xl font-semibold text-slate-900 dark:text-white my-0!">
+                  {member.name}
+                </h3>
+                <p class="text-slate-600 dark:text-slate-400 my-0!">
+                  {member.role}
+                </p>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </section>
 
-  <p>
-    I am working through Astro's introductory tutorial. This is the second page
-    on my website, and it's the first one I built myself!
-  </p>
-
-  <p>
-    This site will update as I complete more of the tutorial, so keep checking
-    back and see how my journey is going!
-  </p>
-  <p>Here are a few facts about me:</p>
-  <ul>
-    <li>My name is {identity.firstName}.</li>
-    <li>
-      I live in {identity.country} and I work as a {identity.occupation}.
-    </li>
-    {
-      identity.hobbies.length >= 2 && (
-        <li>
-          Two of my hobbies are: {identity.hobbies[0]} and {identity.hobbies[1]}
-        </li>
-      )
-    }
-  </ul>
-  <p>My skills are:</p>
-  <ul>
-    {skills.map((skill) => <li class="skill">{skill}</li>)}
-  </ul>
-  {happy && <p>I am happy to be learning Astro!</p>}
-
-  {finished && <p>I finished this tutorial!</p>}
-
-  {
-    goal === 3 ? (
-      <p>My goal is to finish in 3 days.</p>
-    ) : (
-      <p>My goal is not 3 days.</p>
-    )
-  }
-  <p>{operatingSystem}</p>
-
-  {student && <p>I am still in school.</p>}
-
-  <p>I have {quantity + 8} pairs of {footwear}</p>
-
-  {
-    operatingSystem === "MacOS" ? (
-      <p>I am using a Mac.</p>
-    ) : (
-      <p>I am not using a Mac.</p>
-    )
-  }
-</BaseLayout>
+    <section
+      class="text-center motion-opacity-in motion-translate-y-in-30 motion-duration-800 motion-delay-900 motion-ease-spring-bouncy"
+    >
+      <h2 class="text-3xl font-semibold text-slate-900 dark:text-white mb-6">
+        Join Our Journey
+      </h2>
+      <p class="text-slate-700 dark:text-slate-300 mb-8">
+        Subscribe to our newsletter for updates and exclusive offers.
+      </p>
+      <button
+        class="cursor-pointer bg-indigo-500 hover:bg-indigo-600 dark:bg-indigo-600 dark:hover:bg-indigo-700 text-white py-3 px-6 rounded-full motion-opacity-in-0 motion-translate-y-in-25 motion-duration-500 motion-ease-spring-bouncy"
+      >
+        Shop Now
+      </button>
+    </section>
+  </article>
+</IntroducLayout>
