@@ -1,7 +1,7 @@
 import { defaultValueCtx, Editor, rootCtx, editorViewOptionsCtx } from '@milkdown/kit/core';
 import { listener, listenerCtx } from "@milkdown/kit/plugin/listener";
 import { commonmark } from '@milkdown/kit/preset/commonmark';
-import pkg from 'milkdown-plugin-placeholder';
+import * as pkg from 'milkdown-plugin-placeholder';
 import { Milkdown, MilkdownProvider, useEditor } from "@milkdown/react";
 import '@/styles/milkdown.css'
 interface MdEditorProps {
