@@ -58,7 +58,7 @@ importers:
         version: 3.2.5
       drizzle-orm:
         specifier: ^0.43.1
-        version: 0.43.1(@types/pg@8.11.14)(pg@8.15.6)(postgres@3.4.5)
+        version: 0.43.1(@opentelemetry/api@1.8.0)(@types/pg@8.11.14)(pg@8.15.6)(postgres@3.4.5)
       gsap:
         specifier: ^3.12.7
         version: 3.12.7
@@ -1187,6 +1187,10 @@ packages:
   '@nodelib/fs.walk@1.2.8':
     resolution: {integrity: sha512-oGB+UxlgWcgQkgwo8GcEGwemoTFt3FIO9ababBmaGwXIoBKZ+GTy0pP185beGg7Llih/NSHSV2XAs1lnznocSg==}
     engines: {node: '>= 8'}
+
+  '@opentelemetry/api@1.8.0':
+    resolution: {integrity: sha512-I/s6F7yKUDdtMsoBWXJe8Qz40Tui5vsuKCWJEWVL+5q9sSWRzzx6v2KeNsOBEwd94j0eWkpWCH4yB6rZg9Mf0w==}
+    engines: {node: '>=8.0.0'}
 
   '@oslojs/encoding@1.1.0':
     resolution: {integrity: sha512-70wQhgYmndg4GCPxPPxPGevRKqTIJ2Nh4OkiMWmDAVYsTQ+Ta7Sq+rPevXyXGdzr30/qZBnyOalCszoMxlyldQ==}
@@ -5966,6 +5970,9 @@ snapshots:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.19.1
 
+  '@opentelemetry/api@1.8.0':
+    optional: true
+
   '@oslojs/encoding@1.1.0': {}
 
   '@panva/hkdf@1.2.1': {}
@@ -7060,8 +7067,9 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  drizzle-orm@0.43.1(@types/pg@8.11.14)(pg@8.15.6)(postgres@3.4.5):
+  drizzle-orm@0.43.1(@opentelemetry/api@1.8.0)(@types/pg@8.11.14)(pg@8.15.6)(postgres@3.4.5):
     optionalDependencies:
+      '@opentelemetry/api': 1.8.0
       '@types/pg': 8.11.14
       pg: 8.15.6
       postgres: 3.4.5

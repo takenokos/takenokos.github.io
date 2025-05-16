@@ -1,19 +1,24 @@
 import { gsap } from "gsap";
-import { ScrollToPlugin } from "gsap/ScrollToPlugin";
+import { useEffect } from "preact/hooks";
 import type { GroupedPosts } from "./BlogContainer.tsx";
 
 interface YearMonthMinimapProps {
   groupedPosts: GroupedPosts;
 }
 
-gsap.registerPlugin(ScrollToPlugin)
 
 export default function YearMonthMinimap({ groupedPosts }: YearMonthMinimapProps) {
-
+  useEffect(() => {
+    async function loadPlugin() {
+      const { ScrollToPlugin } = await import('gsap/ScrollToPlugin');
+      gsap.registerPlugin(ScrollToPlugin);
+    }
+    loadPlugin();
+  }, []); ``
   const handleJump = (sectionId: string) => {
     gsap.to(window, {
       duration: 0.5,
-      scrollTo: `#${sectionId}`,
+      scrollTo: { y: `#${sectionId}`, offsetY: 150 },
       ease: "power2.out",
     });
   };
