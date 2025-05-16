@@ -20,7 +20,7 @@ export default defineConfig({
   output: 'server',
   vite: {
     ssr: {
-      noExternal: ['gsap']
+      noExternal: ['gsap','milkdown-plugin-placeholder']
     },
     plugins: [tailwindcss()],
     resolve: {
