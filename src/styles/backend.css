@@ -1,0 +1,17 @@
+@import "tailwindcss";
+@plugin 'tailwindcss-motion';
+@plugin '@tailwindcss/typography';
+@custom-variant dark (&:where(.dark, .dark *));
+
+html {
+  @apply bg-white text-slate-950 min-h-screen;
+  font-family: sans-serif;
+}
+
+html.dark {
+  @apply bg-black text-slate-50;
+}
+
+body {
+  @apply min-h-screen flex font-sans antialiased transition-colors duration-300 motion-opacity-in motion-duration-500 motion-ease-spring-bouncier;
+}

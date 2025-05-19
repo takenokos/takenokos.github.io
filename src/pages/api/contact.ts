@@ -1,7 +1,6 @@
 import { db, contactMessages } from '@db/schema';
 import type { APIRoute } from 'astro';
 
-
 export const POST: APIRoute = async ({ request }) => {
     try {
       const formData = await request.json();

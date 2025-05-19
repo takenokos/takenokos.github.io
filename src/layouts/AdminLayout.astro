@@ -1,0 +1,23 @@
+---
+import "../styles/backend.css";
+import AdminSidebar from "@components/preact/AdminSidebar";
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Admin</title>
+  </head>
+  <body>
+    <AdminSidebar client:only />
+    <main class="flex-1 flex flex-col">
+      <header></header>
+      <main class="flex-1">
+        <slot />
+      </main>
+      <footer></footer>
+    </main>
+  </body>
+</html>

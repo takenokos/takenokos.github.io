@@ -17,15 +17,14 @@ export default function HeaderUserDropdown({ username }: { username?: string | n
   };
   return (
     <Dropdown >
-      <DropdownTrigger >
+      <DropdownTrigger>
         Welcome {username}
       </DropdownTrigger>
-      <DropdownMenu >
+      <DropdownMenu>
         <DropdownMenuItem class="text-red-500 bg-red-500/40 hover:bg-red-500/30" value="logout" onSelect={handleSelect}>
           Logout
         </DropdownMenuItem>
       </DropdownMenu>
     </Dropdown>
-
   )
 }

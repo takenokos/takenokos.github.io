@@ -31,6 +31,10 @@ export const users = pgTable("user", {
   email: text("email").unique(),
   emailVerified: timestamp("emailVerified", { mode: "date" }),
   image: text("image"),
+  passwordHash: text('password_hash'), // For custom JWT, use bcrypt
+  role: text('role').notNull().default('user'), // e.g., 'user' for front-end, 'admin' for back-end
+  createdAt: timestamp('created_at').defaultNow(),
+  updatedAt: timestamp('updated_at').defaultNow().$onUpdate(() => new Date()),
 })
 
 export const accounts = pgTable(

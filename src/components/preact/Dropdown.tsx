@@ -4,17 +4,21 @@ import type { ComponentChildren, JSX } from 'preact';
 
 interface DropdownProps {
   children: ComponentChildren;
+  triggerType?: 'hover' | 'click'
 }
 
 interface DropdownTriggerProps {
   children: ComponentChildren;
   open?: boolean;
   setOpen?: (open: boolean) => void;
+  triggerType?: 'hover' | 'click'
 }
 
 interface DropdownMenuProps {
   children: ComponentChildren;
   open?: boolean;
+  position?: 'left' | 'right' | 'top' | 'bottom',
+  triggerType?: 'hover' | 'click'
 }
 
 interface DropdownMenuItemProps {
@@ -25,7 +29,7 @@ interface DropdownMenuItemProps {
   class?: string
 }
 
-export function Dropdown({ children }: DropdownProps) {
+export function Dropdown({ children, triggerType='click' }: DropdownProps) {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
@@ -41,17 +45,28 @@ export function Dropdown({ children }: DropdownProps) {
 
   // 给子组件传递 open 状态和切换函数
   const childrenWithProps = Array.isArray(children)
-    ? children.map(child => cloneElement(child as JSX.Element, { open, setOpen }))
-    : cloneElement(children as JSX.Element, { open, setOpen });
+    ? children.map(child => cloneElement(child as JSX.Element, { open, setOpen, triggerType }))
+    : cloneElement(children as JSX.Element, { open, setOpen, triggerType });
 
   return (
-    <div class="dropdown-root relative inline-block">
+    <div class="dropdown-root relative inline-block"
+      onMouseEnter={e => {
+        e.stopPropagation();
+        if (triggerType !== 'hover') return
+        setOpen && setOpen(true);
+      }}
+      onMouseLeave={e => {
+        e.stopPropagation();
+        if (triggerType !== 'hover') return
+        setOpen && setOpen(false);
+      }}
+    >
       {childrenWithProps}
     </div>
   );
 }
 
-export function DropdownTrigger({ children, open, setOpen }: DropdownTriggerProps) {
+export function DropdownTrigger({ children, open, setOpen, triggerType }: DropdownTriggerProps) {
   return (
     <button
       class="cursor-pointer"
@@ -60,6 +75,7 @@ export function DropdownTrigger({ children, open, setOpen }: DropdownTriggerProp
       aria-expanded={open}
       onClick={e => {
         e.stopPropagation();
+        if (triggerType !== 'click') return
         setOpen && setOpen(!open);
       }}
     >
@@ -68,16 +84,31 @@ export function DropdownTrigger({ children, open, setOpen }: DropdownTriggerProp
   );
 }
 
-export function DropdownMenu({ children, open }: DropdownMenuProps) {
-  const [visible, setVisible] = useState(true)
+export function DropdownMenu({ children, open, position }: DropdownMenuProps) {
+  const [visible, setVisible] = useState(false)
   const ulAnimationEnd = () => {
     setVisible(!!open)
   }
   if (!open && !visible) return null
+  let positionClass = "top-full left-0"
+  switch (position) {
+    case 'left':
+      positionClass = "top-0 right-full"
+      break
+    case 'right':
+      positionClass = "top-0 left-full"
+      break
+    case 'top':
+      positionClass = "bottom-full left-0"
+      break
+    case 'bottom':
+      positionClass = "top-full left-0"
+      break
+  }
   return (
     <ul
       role="menu"
-      class={`absolute top-full left-0 m-0 p-0 list-none ring ring-slate-950/20 dark:ring-slate-50/20 z-50 min-w-36 rounded-md bg-slate-50 dark:bg-slate-950 overflow-hidden ${open ? 'motion-opacity-in motion-translate-x-in motion-translate-y-in' : 'motion-opacity-out motion-translate-x-out motion-translate-y-out'}`}
+      class={`absolute ${positionClass} m-0 p-0 list-none ring ring-slate-950/20 dark:ring-slate-50/20 z-50 min-w-36 rounded-md bg-slate-50 dark:bg-slate-950 overflow-hidden motion-duration-150 ${open ? 'motion-opacity-in motion-translate-x-in motion-translate-y-in' : 'motion-opacity-out motion-translate-x-out motion-translate-y-out'}`}
       onAnimationEnd={ulAnimationEnd}
     >
       {children}
