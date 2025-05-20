@@ -3,7 +3,7 @@ import {
   DropdownTrigger,
   DropdownMenu,
   DropdownMenuItem,
-} from "./Dropdown.tsx";
+} from "./ui/Dropdown.tsx";
 import { signOut } from "auth-astro/client";
 export default function HeaderUserDropdown({ username }: { username?: string | null }) {
   const handleSelect = (val: string | number) => {

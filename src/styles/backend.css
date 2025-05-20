@@ -13,5 +13,5 @@ html.dark {
 }
 
 body {
-  @apply min-h-screen flex font-sans antialiased transition-colors duration-300 motion-opacity-in motion-duration-500 motion-ease-spring-bouncier;
+  @apply min-h-screen font-sans antialiased transition-colors duration-300 motion-opacity-in motion-duration-500 motion-ease-spring-bouncier;
 }

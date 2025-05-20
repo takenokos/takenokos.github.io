@@ -1,8 +1,8 @@
 ---
 import AdminLayout from "@layouts/AdminLayout.astro";
-import AdminDashboard from "@components/preact/AdminDashboard";
+import AdminDashboard from "@components/preact/admin/Dashboard";
 ---
 
-<AdminLayout>
+<AdminLayout title="Admin Dashboard">
   <AdminDashboard client:only />
 </AdminLayout>

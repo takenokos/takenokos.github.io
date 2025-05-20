@@ -1,12 +1,14 @@
 import { useState, useEffect } from 'preact/hooks';
 import { getToken } from '@/utils/jwt.ts'
 import { Icon } from '@iconify-icon/react';
+import { gsap } from 'gsap'
+
 import {
   Dropdown,
   DropdownTrigger,
   DropdownMenu,
   DropdownMenuItem,
-} from "./Dropdown.tsx";
+} from "../ui/Dropdown.tsx";
 
 interface MenuItem {
   id: string;
@@ -17,7 +19,7 @@ interface MenuItem {
 }
 
 
-export default function AdminSidebar() {
+export default function Sidebar() {
   const storeOpen = localStorage.getItem('sidebarOpen')
   const [isOpen, setIsOpen] = useState(storeOpen ? storeOpen === 'true' : true)
   const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
@@ -49,7 +51,22 @@ export default function AdminSidebar() {
   useEffect(() => {
     localStorage.setItem('sidebarOpen', String(isOpen))
   }, [isOpen])
-
+  const toggleOpen = () => {
+    gsap.fromTo('.toggle-icon', { rotate: isOpen ? 0 : 180 }, {
+      rotate: isOpen ? 180 : 360, duration: 0.5
+    })
+    gsap.fromTo('.sidebar', { width: isOpen ? '15rem' : '2.5rem', ease: 'none' }, {
+      width: isOpen ? '2.5rem' : '15rem', duration: 0.5, ease: 'none', onComplete: () => {
+        if (!isOpen)
+          setIsOpen(!isOpen)
+        else {
+          setTimeout(() => {
+            setIsOpen(!isOpen)
+          }, 500)
+        }
+      }
+    })
+  }
   if (loading) return <div>Loading...</div>;
 
   return (
@@ -60,10 +77,10 @@ export default function AdminSidebar() {
           {menuItems.map((item) => (
             <li key={item.id} class="overflow-hidden text-nowrap">
               <a href={item.href} class="flex items-center p-2 hover:bg-slate-500 rounded" title={item.label}>
-                {item.icon && <Icon class="text-lg mr-2" icon={item.icon} />} {item.label}
+                {item.icon && <Icon class="text-2xl mr-1" icon={item.icon} />} {item.label}
               </a>
               {item.subItems && item.subItems.length > 0 && (
-                <ul class="ml-6" >
+                <ul class="ml-7" >
                   {
                     item.subItems.map((subItem) => (
                       <li key={subItem.id}>
@@ -85,8 +102,8 @@ export default function AdminSidebar() {
                 {item.subItems && item.subItems.length > 0 ? (
                   <Dropdown triggerType='hover'>
                     <DropdownTrigger>
-                      <a href={item.href} class="inline-flex items-center p-2 m-0.5 hover:bg-slate-500 rounded" title={item.label}>
-                        {item.icon && <Icon class="text-lg" icon={item.icon} />}
+                      <a href={item.href} class="inline-flex items-center p-2 hover:bg-slate-500 rounded" title={item.label}>
+                        {item.icon && <Icon class="text-2xl" icon={item.icon} />}
                       </a>
                     </DropdownTrigger>
                     <DropdownMenu position='right'>
@@ -100,8 +117,8 @@ export default function AdminSidebar() {
                     </DropdownMenu>
                   </Dropdown>
                 ) : (
-                  <a href={item.href} class="inline-flex items-center p-2 m-0.5 hover:bg-slate-500 rounded" title={item.label}>
-                    {item.icon && <Icon class="text-lg" icon={item.icon} />}
+                  <a href={item.href} class="inline-flex items-center p-2 hover:bg-slate-500 rounded" title={item.label}>
+                    {item.icon && <Icon class="text-2xl" icon={item.icon} />}
                   </a>
                 )}
               </li>
@@ -110,8 +127,8 @@ export default function AdminSidebar() {
         )
       }
       <div class="text-right">
-        <button class={`p-2 m-1 inline-flex items-center cursor-pointer rounded bg-transparent hover:bg-slate-100/50 dark:hover:bg-slate-900/50 transition duration-500 ${isOpen && 'rotate-180'}`} onClick={() => setIsOpen(!isOpen)}>
-          <Icon icon="line-md:chevron-double-right" />
+        <button class="p-2 m-1 inline-flex items-center cursor-pointer rounded bg-transparent hover:bg-slate-100/50 dark:hover:bg-slate-900/50" onClick={() => toggleOpen()}>
+          <Icon class={`toggle-icon ${!isOpen && 'rotate-180'}`} icon="line-md:chevron-double-left" />
         </button>
       </div>
     </aside >
