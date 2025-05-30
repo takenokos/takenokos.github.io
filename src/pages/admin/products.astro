@@ -1,0 +1,8 @@
+---
+import AdminLayout from "@layouts/AdminLayout.astro";
+import AdminProducts from "@components/preact/admin/Products";
+---
+
+<AdminLayout title="Product Management">
+  <AdminProducts client:only />
+</AdminLayout>

@@ -1,9 +1,9 @@
 ---
-import BaseLayout from "@layouts/BaseLayout.astro";
+import DefaultLayout from "@layouts/DefaultLayout.astro";
 import ProductList from "@components/preact/ProductList";
 const { category } = Astro.params;
 ---
 
-<BaseLayout pageTitle="Products" description="Browse our products">
+<DefaultLayout pageTitle="Products" description="Browse our products">
   <ProductList category={category} client:load />
-</BaseLayout>
+</DefaultLayout>

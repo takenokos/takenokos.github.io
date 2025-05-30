@@ -6,21 +6,21 @@ import {
   primaryKey,
   integer,
   real,
-  json
-} from "drizzle-orm/pg-core"
-import postgres from "postgres"
-import { drizzle } from "drizzle-orm/postgres-js"
-import { type AdapterAccountType } from "@auth/core/adapters"
+  json,
+} from "drizzle-orm/pg-core";
+import postgres from "postgres";
+import { drizzle } from "drizzle-orm/postgres-js";
+import { relations } from "drizzle-orm";
+import { type AdapterAccountType } from "@auth/core/adapters";
 
 // 处理drizzle-kit 和 astro api route的环境变量问题
-let url = ''
+let url = "";
 try {
-  url = import.meta.env.POSTGRESQL_URL
+  url = import.meta.env.POSTGRESQL_URL;
 } catch (err) {
-  url = process.env.POSTGRESQL_URL!
+  url = process.env.POSTGRESQL_URL!;
 }
-const pool = postgres(url, { max: 1 })
-export const db = drizzle(pool)
+const pool = postgres(url, { max: 1 });
 
 // user
 export const users = pgTable("user", {
@@ -31,11 +31,13 @@ export const users = pgTable("user", {
   email: text("email").unique(),
   emailVerified: timestamp("emailVerified", { mode: "date" }),
   image: text("image"),
-  passwordHash: text('password_hash'), // For custom JWT, use bcrypt
-  role: text('role').notNull().default('user'), // e.g., 'user' for front-end, 'admin' for back-end
-  createdAt: timestamp('created_at').defaultNow(),
-  updatedAt: timestamp('updated_at').defaultNow().$onUpdate(() => new Date()),
-})
+  passwordHash: text("password_hash"), // For custom JWT, use bcrypt
+  role: text("role").notNull().default("user"), // e.g., 'user' for front-end, 'admin' for back-end
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at")
+    .defaultNow()
+    .$onUpdate(() => new Date()),
+});
 
 export const accounts = pgTable(
   "account",
@@ -61,8 +63,8 @@ export const accounts = pgTable(
         columns: [account.provider, account.providerAccountId],
       }),
     },
-  ]
-)
+  ],
+);
 
 export const sessions = pgTable("session", {
   sessionToken: text("sessionToken").primaryKey(),
@@ -70,7 +72,7 @@ export const sessions = pgTable("session", {
     .notNull()
     .references(() => users.id, { onDelete: "cascade" }),
   expires: timestamp("expires", { mode: "date" }).notNull(),
-})
+});
 
 export const verificationTokens = pgTable(
   "verificationToken",
@@ -85,8 +87,8 @@ export const verificationTokens = pgTable(
         columns: [verificationToken.identifier, verificationToken.token],
       }),
     },
-  ]
-)
+  ],
+);
 
 export const authenticators = pgTable(
   "authenticator",
@@ -108,105 +110,165 @@ export const authenticators = pgTable(
         columns: [authenticator.userId, authenticator.credentialID],
       }),
     },
-  ]
-)
+  ],
+);
 
 // subscriber
-export const subscribers = pgTable('subscribers', {
-  id: text('id')
+export const subscribers = pgTable("subscribers", {
+  id: text("id")
     .primaryKey()
     .$defaultFn(() => crypto.randomUUID()),
-  email: text('email').notNull().unique(),
-  createdAt: timestamp('created_at').defaultNow(),
-  status: text('status').default('active').notNull(),
+  email: text("email").notNull().unique(),
+  createdAt: timestamp("created_at").defaultNow(),
+  status: text("status").default("active").notNull(),
 });
 
 // contact
-export const contactMessages = pgTable('contact_messages', {
-  id: text('id')
+export const contactMessages = pgTable("contact_messages", {
+  id: text("id")
     .primaryKey()
     .$defaultFn(() => crypto.randomUUID()),
-  name: text('name').notNull(),
-  email: text('email').notNull(),
-  message: text('message').notNull(),
-  createdAt: timestamp('created_at').defaultNow(),
-  status: text('status').default('pending').notNull(),
+  name: text("name").notNull(),
+  email: text("email").notNull(),
+  message: text("message").notNull(),
+  createdAt: timestamp("created_at").defaultNow(),
+  status: text("status").default("pending").notNull(),
 });
 
 // comment
-export const comments = pgTable('comments', {
-  id: text('id')
+export const comments = pgTable("comments", {
+  id: text("id")
     .primaryKey()
     .$defaultFn(() => crypto.randomUUID()),
-  postId: text('post_id').notNull(),
-  userId: text('user_id',).notNull(),
-  commentText: text('comment_text').notNull(),
-  createdAt: timestamp('created_at').defaultNow().notNull(),
+  postId: text("post_id").notNull(),
+  userId: text("user_id").notNull(),
+  commentText: text("comment_text").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
 // product
-export const categories = pgTable('categories', {
-  id: text('id')
+export const categories = pgTable("categories", {
+  id: text("id")
     .primaryKey()
     .$defaultFn(() => crypto.randomUUID()),
-  name: text('name').notNull(), // e.g., "Electronics"
-  description: text('description'),
-  createdAt: timestamp('created_at').defaultNow(),
+  name: text("name").notNull(), // e.g., "Electronics"
+  description: text("description"),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at")
+    .defaultNow()
+    .$onUpdate(() => new Date()),
 });
 
-export const products = pgTable('products', {
-  id: text('id')
+export const products = pgTable("products", {
+  id: text("id")
     .primaryKey()
     .$defaultFn(() => crypto.randomUUID()),
-  name: text('name').notNull(), // Product name
-  slug: text('slug').notNull().unique(), // For URL-friendly IDs, e.g., "apple-iphone-14"
-  description: text('description').notNull(), // Markdown-supported description
-  price: real('price').notNull(), // Price in currency
-  stock: integer('stock').notNull().default(0), // Inventory count
-  categoryId: text('category_id').references(() => categories.id), // Foreign key to categories
-  imageUrl: text('image_url').notNull(), // URL to product image
-  isFeatured: boolean('is_featured').default(false), // For featured products
-  createdAt: timestamp('created_at').defaultNow(),
-});
-// Attributes表：存储规格类型 (e.g., Color, Size)
-export const attributes = pgTable('attributes', {
-  id: text('id')
-    .primaryKey()
-    .$defaultFn(() => crypto.randomUUID()),
-  name: text('name').notNull(), // e.g., "Color"
-  description: text('description'),
-  createdAt: timestamp('created_at').defaultNow(),
-});
-
-// AttributeValues表：存储规格的具体值 (e.g., "Red" for Color)
-export const attributeValues = pgTable('attribute_values', {
-  id: text('id')
-    .primaryKey()
-    .$defaultFn(() => crypto.randomUUID()),
-  attributeId: text('attribute_id').references(() => attributes.id), // Foreign key to attributes
-  value: text('value').notNull(), // e.g., "Red"
-  createdAt: timestamp('created_at').defaultNow(),
+  name: text("name").notNull(), // Product name
+  slug: text("slug").notNull().unique(), // For URL-friendly IDs, e.g., "apple-iphone-14"
+  description: text("description").notNull(), // Markdown-supported description
+  price: real("price").notNull(), // Price in currency
+  stock: integer("stock").notNull().default(0), // Inventory count
+  categoryId: text("category_id").references(() => categories.id), // Foreign key to categories
+  imageUrl: text("image_url").notNull(), // URL to product image
+  isFeatured: boolean("is_featured").default(false), // For featured products
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at")
+    .defaultNow()
+    .$onUpdate(() => new Date()),
 });
 
 // ProductAttributes表：关联产品和规格 (e.g., Product has Color and Size)
-export const productAttributes = pgTable('product_attributes', {
-  id: text('id')
+export const productAttributes = pgTable("product_attributes", {
+  id: text("id")
     .primaryKey()
     .$defaultFn(() => crypto.randomUUID()),
-  productId: text('product_id').references(() => products.id), // Foreign key to products
-  attributeId: text('attribute_id').references(() => attributes.id), // Foreign key to attributes
-  createdAt: timestamp('created_at').defaultNow(),
+  productId: text("product_id").references(() => products.id), // Foreign key to products
+  attribute: text("attribute").notNull(),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at")
+    .defaultNow()
+    .$onUpdate(() => new Date()),
 });
-// Variants表：扩展为存储最终的变体组合 (e.g., specific SKU with combinations)
-export const variants = pgTable('variants', {
-  id: text('id')
+
+// AttributeValues表：存储规格的具体值 (e.g., "Red" for Color)
+export const productAttributeValues = pgTable("product_attribute_values", {
+  id: text("id")
     .primaryKey()
     .$defaultFn(() => crypto.randomUUID()),
-  productId: text('product_id').references(() => products.id), // Foreign key to products
-  sku: text('sku').notNull().unique(), // Unique SKU, e.g., "PROD-001-RED-M-PAT1"
-  combinations: json('combinations').notNull(), // JSON to store combinations, e.g., { "color": "Red", "size": "M", "pattern": "Pattern1" }
-  additionalPrice: real('additional_price').default(0), // Extra price for this variant
-  stock: integer('stock').notNull().default(0), // Inventory for this specific combination
-  isAvailable: boolean('is_available').default(true), // Whether this variant is in stock
-  createdAt: timestamp('created_at').defaultNow(),
+  attributeId: text("attribute_id").references(() => productAttributes.id), // Foreign key to attributes
+  value: text("value").notNull(), // e.g., "Red"
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at")
+    .defaultNow()
+    .$onUpdate(() => new Date()),
+});
+
+// Variants表：扩展为存储最终的变体组合 (e.g., specific SKU with combinations)
+export const productVariants = pgTable("product_variants", {
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+  productId: text("product_id").references(() => products.id), // Foreign key to products
+  sku: text("sku").notNull().unique(), // Unique SKU, e.g., "PROD-001-RED-M-PAT1"
+  combinations: json("combinations").notNull(), // JSON to store combinations, e.g., { "color": "Red", "size": "M", "pattern": "Pattern1" }
+  additionalPrice: real("additional_price").default(0), // Extra price for this variant
+  stock: integer("stock").notNull().default(0), // Inventory for this specific combination
+  isAvailable: boolean("is_available").default(true), // Whether this variant is in stock
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at")
+    .defaultNow()
+    .$onUpdate(() => new Date()),
+});
+export const productsRelations = relations(products, ({ many }) => ({
+  attributes: many(productAttributes),
+  variants: many(productVariants),
+}));
+export const productAttributesRelations = relations(
+  productAttributes,
+  ({ one, many }) => ({
+    product: one(products, {
+      fields: [productAttributes.productId],
+      references: [products.id],
+    }),
+    values: many(productAttributeValues),
+  }),
+);
+export const productAttributeValuesRelations = relations(
+  productAttributeValues,
+  ({ one }) => ({
+    attribute: one(productAttributes, {
+      fields: [productAttributeValues.attributeId],
+      references: [productAttributes.id],
+    }),
+  }),
+);
+export const productVariantsRelations = relations(
+  productVariants,
+  ({ one }) => ({
+    attribute: one(products, {
+      fields: [productVariants.productId],
+      references: [products.id],
+    }),
+  }),
+);
+export const db = drizzle(pool, {
+  schema: {
+    users,
+    accounts,
+    sessions,
+    verificationTokens,
+    authenticators,
+    subscribers,
+    contactMessages,
+    comments,
+    categories,
+    products,
+    productAttributes,
+    productAttributeValues,
+    productVariants,
+    productsRelations,
+    productAttributesRelations,
+    productAttributeValuesRelations,
+    productVariantsRelations,
+  },
 });

@@ -1,5 +1,9 @@
 ---
 import NavigationLink from "./NavigationLink.astro";
+import NavigationCategoriesDropdown from "./preact/NavigationCategoriesDropdown";
+const response = await fetch(new URL("/api/categories", Astro.url));
+const data = await response.json();
+const categories = data.data;
 ---
 
 <div
@@ -8,5 +12,6 @@ import NavigationLink from "./NavigationLink.astro";
   <NavigationLink href="/"> Home </NavigationLink>
   <NavigationLink href="/about"> About</NavigationLink>
   <NavigationLink href="/blog"> Blog</NavigationLink>
+  <NavigationCategoriesDropdown categories={categories} client:load />
   <!-- <NavigationLink href="/tags"> Tags</NavigationLink> -->
 </div>

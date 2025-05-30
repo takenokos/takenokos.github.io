@@ -6,7 +6,8 @@ const menuData = [ // 示例静态菜单数据，实际可从数据库查询
   { id: '2', label: 'User Management', icon: 'mdi:users-outline', href: '/admin/users', roles: ['admin'] },
   {
     id: '3', label: 'Product Management', icon: 'mdi:box-variant-closed', href: '/admin/products', roles: ['admin'], subItems: [
-      { id: '3.1', label: 'Add Product', href: '/admin/product/add' },
+      { id: '3.1', label: 'Category', href: '/admin/categories' },
+      { id: '3.2', label: 'Add Product', href: '/admin/product/add' },
     ]
   },
 ];

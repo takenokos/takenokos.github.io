@@ -1,25 +1,32 @@
 import { useState, useEffect } from "preact/hooks";
 import { gsap } from "gsap";
+import type {
+  Product,
+  ProductAttribute,
+  ProductAttributeValue,
+  ProductVariant,
+} from "@/db/schema.d";
 
 interface ProductDetailProps {
-  slug?: string
+  slug?: string;
 }
-
 async function fetchProductWithVariants(slug: string) {
   const response = await fetch(`/api/product/${slug}`); // Updated to include variants
   return response.json();
 }
 
 export default function ProductDetail({ slug }: ProductDetailProps) {
-  const [product, setProduct] = useState<any>(null);
+  const [product, setProduct] = useState<Product | null>(null);
+  const [attributes, setAttributes] = useState<ProductAttribute[]>([]);
   const [selectedCombinations, setSelectedCombinations] = useState({}); // e.g., { color: 'Red', size: 'M' }
-  const [availableVariant, setAvailableVariant] = useState<any>(null);
+  const [variant, setVariant] = useState<ProductVariant[]>([]);
 
   useEffect(() => {
     fetchProductWithVariants(slug || "").then((data) => {
       setProduct(data.product);
-      setAvailableVariant(data.variants); // Includes attributes and variants
-      gsap.from(".variant-options", {
+      setAttributes(data.attributes);
+      setVariant(data.variants);
+      gsap.from(".variant-options>*", {
         opacity: 0,
         y: 20,
         duration: 0.5,
@@ -52,38 +59,36 @@ export default function ProductDetail({ slug }: ProductDetailProps) {
   if (!product) return <p>Loading...</p>;
 
   return (
-    <div class="container mx-auto p-4">
+    <>
       <h1 class="text-3xl font-bold mb-4">{product.name}</h1>
       <img
         src={product.imageUrl}
         alt={product.name}
         class="w-full h-64 object-cover mb-4"
       />
-      <p class="text-gray-700 mb-4">{product.description}</p>
+      <p class="mb-4">{product.description}</p>
       <p class="text-xl font-semibold">Base Price: ${product.price}</p>
 
       <div class="variant-options mt-4">
-        {availableVariant?.attributes?.map((attrGroup: any) => (
-          <div key={attrGroup.attributeId} class="mb-4">
+        {attributes.map((attr: ProductAttribute) => (
+          <div key={attr.id} class="mb-4">
             <label class="block text-sm font-medium mb-2">
-              {attrGroup.name}
+              {attr.attribute}
             </label>{" "}
-            {/* e.g., "Color" */}
             <select
               onChange={(e: Event) =>
-                handleSelectionChange(attrGroup.name, (e.target as HTMLSelectElement).value)
+                handleSelectionChange(
+                  attr.attribute,
+                  (e.target as HTMLSelectElement).value,
+                )
               }
               class="p-2 border rounded w-full"
             >
-              {attrGroup.values.map(
-                (
-                  value: any, // Assuming values are in attrGroup
-                ) => (
-                  <option key={value.id} value={value.value}>
-                    {value.value}
-                  </option>
-                ),
-              )}
+              {(attr.values || []).map((value: ProductAttributeValue) => (
+                <option key={value.id} value={value.value}>
+                  {value.value}
+                </option>
+              ))}
             </select>
           </div>
         ))}
@@ -95,6 +100,6 @@ export default function ProductDetail({ slug }: ProductDetailProps) {
       >
         Add to Cart with Selected Variant
       </button>
-    </div>
+    </>
   );
-};
+}

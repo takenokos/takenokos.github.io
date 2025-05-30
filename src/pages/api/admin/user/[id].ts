@@ -14,7 +14,7 @@ export const GET: APIRoute = async ({ request, params }) => {
     }
     // 移除敏感信息，如密码
     const safeUser = user.map(({ passwordHash, ...rest }) => rest);
-    return new Response(JSON.stringify(safeUser[0]), { status: 200, headers: { 'Content-Type': 'application/json' } });
+    return new Response(JSON.stringify(safeUser[0]), { status: 200  });
   } catch (error) {
     return new Response(JSON.stringify({ error: (error as Error).message }), { status: 401 });
   }

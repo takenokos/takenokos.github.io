@@ -2,7 +2,7 @@ import { useState, useEffect } from "preact/hooks";
 import { gsap } from "gsap";
 
 interface ProductListProps {
-  category?: string
+  category?: string;
 }
 
 const fetchProducts = async (category: string | null) => {
@@ -13,7 +13,9 @@ const fetchProducts = async (category: string | null) => {
 
 export default function ProductList({ category }: ProductListProps) {
   const [products, setProducts] = useState([]);
-  const [currentCategory, setCurrentCategory] = useState<string>(category || '');
+  const [currentCategory, setCurrentCategory] = useState<string>(
+    category || "",
+  );
 
   useEffect(() => {
     fetchProducts(currentCategory).then((data) => {
@@ -30,13 +32,18 @@ export default function ProductList({ category }: ProductListProps) {
   return (
     <div class="container mx-auto p-4">
       <h1 class="text-3xl font-bold mb-4">Products</h1>
-      <select onChange={(e: Event) => setCurrentCategory((e.target as HTMLSelectElement).value)} class="mb-4 p-2 border rounded">
+      <select
+        onChange={(e: Event) =>
+          setCurrentCategory((e.target as HTMLSelectElement).value)
+        }
+        class="mb-4 p-2 border rounded"
+      >
         <option value="">All Categories</option>
       </select>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
         {products.map((product: any) => (
           <a
-            href={`/products/${product.slug}`}
+            href={`/product/${product.slug}`}
             class="product-card block p-4 border rounded shadow hover:shadow-lg"
           >
             <img
@@ -51,4 +58,4 @@ export default function ProductList({ category }: ProductListProps) {
       </div>
     </div>
   );
-};
+}
