@@ -34,6 +34,16 @@ const canonicalUrl = Astro.url.toString();
       }
     </script>
     <title>{pageTitle}</title>
+    <script>
+      import { useLoading } from "@/components/preact/ui/LoadingProgressBar";
+      const { setIsLoading, removeIsLoading } = useLoading(true);
+      window.addEventListener("load", () => {
+        // 仅运行一次。
+        console.log("load");
+        setIsLoading(false);
+        removeIsLoading();
+      });
+    </script>
   </head>
   <body>
     <Header />

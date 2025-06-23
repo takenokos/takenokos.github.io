@@ -151,7 +151,7 @@ export const categories = pgTable("categories", {
   id: text("id")
     .primaryKey()
     .$defaultFn(() => crypto.randomUUID()),
-  name: text("name").notNull(), // e.g., "Electronics"
+  name: text("name").notNull().unique(), // e.g., "Electronics"
   description: text("description"),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at")

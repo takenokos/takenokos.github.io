@@ -2,8 +2,11 @@
 import DefaultLayout from "@layouts/DefaultLayout.astro";
 import ProductList from "@components/preact/ProductList";
 const { category } = Astro.params;
+const response = await fetch(new URL("/api/categories", Astro.url));
+const data = await response.json();
+const categories = data.data;
 ---
 
 <DefaultLayout pageTitle="Products" description="Browse our products">
-  <ProductList category={category} client:load />
+  <ProductList category={category} categories={categories} client:load />
 </DefaultLayout>
