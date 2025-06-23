@@ -24,7 +24,7 @@ export default function NavigationCategoriesDropdown({
       <DropdownMenu>
         {categories.map((category) => (
           <DropdownMenuItem
-            class="flex items-center p-2 py-2 hover:bg-slate-500 rounded"
+            class="flex items-center p-2 py-2 rounded hover:bg-indigo-500/30 hover:text-indigo-500"
             value={category.id as string}
             onSelect={(val: string | number) =>
               (window.location.href = ("/products/" + category.name) as string)
