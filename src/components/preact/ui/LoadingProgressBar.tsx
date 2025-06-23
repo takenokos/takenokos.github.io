@@ -13,12 +13,12 @@ export default function LoadingProgressBar({
     setComplete(false);
     if (visible) {
       // Animate the progress bar when loading starts
-      gsap.to(".progress-bar-fill", {
+      gsap.to(".loading-progress-bar", {
         opacity: 1,
         duration: 0.1,
         onComplete: () => {
           gsap.fromTo(
-            ".progress-bar-fill",
+            ".loading-progress-bar-fill",
             { width: "0%" },
             {
               width: "80%",
@@ -33,11 +33,11 @@ export default function LoadingProgressBar({
       });
     } else {
       // Reset animation when loading ends
-      gsap.to(".progress-bar-fill", {
+      gsap.to(".loading-progress-bar-fill", {
         width: "100%",
         duration: 0.5,
         onComplete: () => {
-          gsap.to(".progress-bar-fill", {
+          gsap.to(".loading-progress-bar", {
             opacity: 0,
             duration: 0.1,
             onComplete: () => {
@@ -50,9 +50,9 @@ export default function LoadingProgressBar({
   }, [visible]); // Re-run on isLoading change
   if (!visible && complete) return;
   return (
-    <div class="fixed top-0 z-50 w-full bg-slate-100/20 dark:bg-slate-900/20 rounded-full h-2.5">
+    <div class="loading-progress-bar fixed top-0 z-50 w-full bg-slate-100/20 dark:bg-slate-900/20 rounded-full h-2.5">
       <div
-        class="progress-bar-fill bg-indigo-500 h-2.5 rounded-full"
+        class="loading-progress-bar-fill bg-indigo-500 h-2.5 rounded-full"
         style={{ width: "0%" }} // Initial width for animation
       ></div>
     </div>
@@ -72,11 +72,11 @@ const setIsLoading = (key: string, bol: boolean) => {
     }
   }
   console.log(loadingStateMap, visible);
-  const className = "loading-progress-bar";
+  const className = "loading-progress-bar-container";
   let container = document.querySelector("." + className);
   if (!container) {
     container = document.createElement("div");
-    container.classList = "loading-progress-bar";
+    container.classList = className;
     document.body.appendChild(container);
   }
   render(<LoadingProgressBar visible={visible} />, container);
