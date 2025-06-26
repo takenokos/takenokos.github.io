@@ -4,7 +4,7 @@ import {
   products,
   productAttributes,
   productAttributeValues,
-  producrVariants,
+  productVariants,
 } from "./schema.ts";
 import type { InferInsertModel } from "drizzle-orm";
 export type User = InferInsertModel<typeof users>;
@@ -16,4 +16,4 @@ export type ProductAttribute = InferInsertModel<typeof productAttributes> & {
 export type ProductAttributeValue = InferInsertModel<
   typeof productAttributeValues
 >;
-export type ProductVariant = InferInsertModel<typeof producrVariants>;
+export type ProductVariant = InferInsertModel<typeof productVariants>;
