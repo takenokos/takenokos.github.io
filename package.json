@@ -9,10 +9,10 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/netlify": "^6.3.2",
-    "@astrojs/preact": "^4.0.11",
-    "@astrojs/rss": "^4.0.11",
-    "@astrojs/sitemap": "^3.3.1",
+    "@astrojs/netlify": "^6.5.3",
+    "@astrojs/preact": "^4.1.0",
+    "@astrojs/rss": "^4.0.12",
+    "@astrojs/sitemap": "^3.4.1",
     "@auth/core": "^0.39.1",
     "@auth/drizzle-adapter": "^1.9.0",
     "@iconify-json/line-md": "^1.2.7",
@@ -20,7 +20,7 @@
     "@milkdown/kit": "^7.10.2",
     "@milkdown/react": "^7.10.2",
     "@tailwindcss/vite": "^4.0.17",
-    "astro": "^5.7.12",
+    "astro": "^5.12.3",
     "astro-icon": "^1.1.5",
     "auth-astro": "^4.2.0",
     "bcryptjs": "^3.0.2",
