@@ -1,0 +1,8 @@
+---
+import AdminLayout from "@layouts/AdminLayout.astro";
+import AdminUsers from "@components/preact/admin/Users";
+---
+
+<AdminLayout title="User Management">
+  <AdminUsers client:only />
+</AdminLayout>

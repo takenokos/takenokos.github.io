@@ -1,0 +1,29 @@
+---
+import "../styles/backend.css";
+import AdminSidebar from "@components/preact/admin/Sidebar";
+import { ClientRouter } from "astro:transitions";
+const { title } = Astro.props;
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title ? `${title} - Admin` : "Admin"}</title>
+    <ClientRouter />
+  </head>
+  <body
+    class="flex min-h-screen w-full overflow-hidden bg-slate-50 text-slate-950 dark:bg-slate-950 dark:text-slate-50"
+  >
+    <AdminSidebar client:only transition:persist />
+    <div class="flex-1 min-w-0 flex flex-col h-screen">
+      <header></header>
+      <main class="flex-1 min-w-0 overflow-auto p-5">
+        <h1 class="text-2xl font-bold mb-4">{title}</h1>
+        <slot />
+      </main>
+      <footer></footer>
+    </div>
+  </body>
+</html>

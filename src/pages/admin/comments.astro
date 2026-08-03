@@ -1,0 +1,8 @@
+---
+import AdminLayout from "@layouts/AdminLayout.astro";
+import AdminComments from "@components/preact/admin/Comments";
+---
+
+<AdminLayout title="Comment Management">
+  <AdminComments client:only />
+</AdminLayout>

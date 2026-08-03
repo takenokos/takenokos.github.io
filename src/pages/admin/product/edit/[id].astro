@@ -1,0 +1,9 @@
+---
+import AdminLayout from "@layouts/AdminLayout.astro";
+import AdminProductForm from "@components/preact/admin/ProductForm";
+const { id } = Astro.params;
+---
+
+<AdminLayout title="Product Add">
+  <AdminProductForm id={id} client:only />
+</AdminLayout>

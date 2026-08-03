@@ -1,10 +1,11 @@
-import { db, subscribers } from '@db/schema';
+import { db, subscribers } from "@db/schema";
 import { eq } from "drizzle-orm";
-import type { APIRoute } from 'astro';
+import type { APIRoute } from "astro";
+import { errorResponse, jsonResponse } from "@/utils/apiResponse";
 
 export const POST: APIRoute = async ({ request }) => {
-  if (request.method !== 'POST') {
-    return new Response(JSON.stringify({ error: 'Method not allowed' }), { status: 405 });
+  if (request.method !== "POST") {
+    return errorResponse("Method not allowed", 405);
   }
 
   try {
@@ -13,22 +14,27 @@ export const POST: APIRoute = async ({ request }) => {
 
     // Basic email validation
     if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      return new Response(JSON.stringify({ error: 'Invalid email format' }), { status: 400 });
+      return errorResponse("Invalid email format", 400);
     }
 
-
     // Check if email already exists
-    const existingSubscribers = await db.select().from(subscribers).where(eq(subscribers.email, email)).limit(1);
+    const existingSubscribers = await db
+      .select()
+      .from(subscribers)
+      .where(eq(subscribers.email, email))
+      .limit(1);
     if (existingSubscribers.length > 0) {
-      return new Response(JSON.stringify({ error: 'Email already subscribed' }), { status: 409 });
+      return errorResponse("Email already subscribed", 409);
     }
 
     // Insert new subscribers
     await db.insert(subscribers).values({ email });
 
-    return new Response(JSON.stringify({ success: true, message: 'Subscribed successfully' }), { status: 201 });
+    return jsonResponse(
+      { success: true, message: "Subscribed successfully" },
+      201,
+    );
   } catch (error) {
-    console.error('subscriberserror:', error);
-    return new Response(JSON.stringify({ error: 'Internal server error' }), { status: 500 });
+    return errorResponse("Internal server error");
   }
-}
+};

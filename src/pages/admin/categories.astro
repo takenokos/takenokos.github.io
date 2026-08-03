@@ -1,0 +1,8 @@
+---
+import AdminLayout from "@layouts/AdminLayout.astro";
+import AdminCategories from "@components/preact/admin/Categories";
+---
+
+<AdminLayout title="Category Management">
+  <AdminCategories client:only />
+</AdminLayout>
