@@ -4,18 +4,18 @@ import type { Category } from "@/db/schema.d";
 import { useLoading } from "./ui/LoadingProgressBar";
 interface ProductListProps {
   category?: string;
-  categories: Category[];
+  categories?: Category[];
 }
 
 const fetchProducts = async (category: string | null) => {
-  const url = `/api/products/${category || ""}`;
+  const url = `/api/products/${category || "all"}`;
   const response = await fetch(url);
   return response.json();
 };
 
 export default function ProductList({
   category,
-  categories,
+  categories = [],
 }: ProductListProps) {
   const [products, setProducts] = useState([]);
   const [currentCategory, setCurrentCategory] = useState<string>(
@@ -31,7 +31,7 @@ export default function ProductList({
     setIsLoading(true);
     fetchProducts(currentCategory)
       .then((data) => {
-        setProducts(data);
+        setProducts(Array.isArray(data) ? data : []);
         gsap.from(".product-card", {
           opacity: 0,
           y: 20,

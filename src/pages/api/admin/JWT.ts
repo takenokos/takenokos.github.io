@@ -1,5 +1,10 @@
 import jwt from "jsonwebtoken";
 import type { APIContext } from "astro";
+import {
+  errorResponse,
+  jsonResponse,
+  responseFromError,
+} from "@/utils/apiResponse";
 
 // Throw an error if the JWT secret is not set in the environment.
 if (!import.meta.env.JWT_SECRET_ADMIN) {
@@ -42,28 +47,21 @@ export const verifyAdminToken = async (
   const token = extractTokenFromHeader(request.headers.get("Authorization"));
 
   if (!token) {
-    throw new Response(
-      JSON.stringify({ error: "No authorization token provided." }),
-      { status: 401 },
-    );
+    throw errorResponse("No authorization token provided.", 401);
   }
 
   try {
     const decoded = jwt.verify(token, JWT_SECRET) as AdminJwtPayload;
 
     if (decoded.role !== "admin") {
-      throw new Response(
-        JSON.stringify({ error: "Forbidden: User is not an admin." }),
-        { status: 403 },
-      );
+      throw errorResponse("Forbidden: User is not an admin.", 403);
     }
 
     return decoded;
   } catch (error) {
+    if (error instanceof Response) throw error;
     // Catches errors from jwt.verify (e.g., token expired, invalid signature)
-    throw new Response(JSON.stringify({ error: "Invalid or expired token." }), {
-      status: 401,
-    });
+    throw errorResponse("Invalid or expired token.", 401);
   }
 };
 
@@ -75,20 +73,8 @@ export const GET = async ({ request }: APIContext) => {
   try {
     const adminData = await verifyAdminToken(request);
     // Proceed with admin-only logic
-    return new Response(
-      JSON.stringify({ message: "Success", admin: adminData }),
-      {
-        status: 200,
-        headers: { "Content-Type": "application/json" },
-      },
-    );
+    return jsonResponse({ message: "Success", admin: adminData });
   } catch (error) {
-    if (error instanceof Response) {
-      return error;
-    }
-    return new Response(
-      JSON.stringify({ error: "An unexpected error occurred." }),
-      { status: 500 },
-    );
+    return responseFromError(error);
   }
 };

@@ -1,6 +1,7 @@
 import bcrypt from "bcryptjs";
 import { db, users } from "@db/schema";
 import type { APIRoute } from "astro";
+import { errorResponse, jsonResponse } from "@/utils/apiResponse";
 
 export const POST: APIRoute = async ({ request }) => {
   try {
@@ -10,20 +11,12 @@ export const POST: APIRoute = async ({ request }) => {
       .insert(users)
       .values({ email, passwordHash: hashedPassword, name, role: "admin" })
       .returning();
-    return new Response(
-      JSON.stringify({
-        success: true,
-        message: "Register successfully!",
-        user: newUser,
-      }),
-      { status: 200 },
-    );
+    return jsonResponse({
+      success: true,
+      message: "Register successfully!",
+      user: newUser,
+    });
   } catch (error) {
-    return new Response(
-      JSON.stringify({
-        error: "Server error occurred. Please try again later.",
-      }),
-      { status: 500 },
-    );
+    return errorResponse("Server error occurred. Please try again later.");
   }
 };

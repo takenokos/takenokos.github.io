@@ -1,6 +1,6 @@
-import type { FunctionalComponent } from 'preact';
-import { useState } from 'preact/hooks';
-import type { Category } from '@db/schema.d'
+import type { FunctionalComponent } from "preact";
+import { useState } from "preact/hooks";
+import type { Category } from "@db/schema.d";
 
 interface CategoryFormProps {
   category?: Category | null;
@@ -8,9 +8,12 @@ interface CategoryFormProps {
   onClose?: () => void;
 }
 
-const CategoryForm: FunctionalComponent<CategoryFormProps> = ({ category, onSubmit }) => {
-  const [name, setName] = useState(category?.name || '');
-  const [description, setDescription] = useState(category?.description || '');
+const CategoryForm: FunctionalComponent<CategoryFormProps> = ({
+  category,
+  onSubmit,
+}) => {
+  const [name, setName] = useState(category?.name || "");
+  const [description, setDescription] = useState(category?.description || "");
 
   const handleSubmit = (e: Event) => {
     e.preventDefault();

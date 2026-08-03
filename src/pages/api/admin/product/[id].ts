@@ -8,6 +8,11 @@ import {
 } from "@db/schema";
 import type { APIRoute } from "astro";
 import { verifyAdminToken } from "../JWT";
+import {
+  errorResponse,
+  jsonResponse,
+  responseFromError,
+} from "@/utils/apiResponse";
 import type {
   ProductAttribute,
   ProductAttributeValue,
@@ -20,7 +25,7 @@ export const GET: APIRoute = async ({ request, params }) => {
     const { id } = params;
 
     if (!id) {
-      throw new Error("Product ID is required");
+      return errorResponse("Product ID is required", 400);
     }
     const product = await db.query.products.findFirst({
       where: eq(products.id, id),
@@ -35,15 +40,11 @@ export const GET: APIRoute = async ({ request, params }) => {
     });
 
     if (!product) {
-      return new Response(JSON.stringify({ error: "Product not found" }), {
-        status: 404,
-      });
+      return errorResponse("Product not found", 404);
     }
-    return new Response(JSON.stringify(product), { status: 200 });
-  } catch (error: any) {
-    return new Response(JSON.stringify({ error: (error as Error).message }), {
-      status: 500,
-    });
+    return jsonResponse(product);
+  } catch (error) {
+    return responseFromError(error);
   }
 };
 
@@ -54,7 +55,10 @@ export const POST: APIRoute = async ({ request }) => {
 
     // 输入验证
     if (!body.name || !body.price || !body.categoryId) {
-      throw new Error("Missing required fields: name, price, categoryId");
+      return errorResponse(
+        "Missing required fields: name, price, categoryId",
+        400,
+      );
     }
 
     const [newProduct] = await db
@@ -113,14 +117,9 @@ export const POST: APIRoute = async ({ request }) => {
         );
       }
     }
-    return new Response(
-      JSON.stringify({ success: true, userId: newProduct.id }),
-      { status: 201 },
-    );
-  } catch (error: any) {
-    return new Response(JSON.stringify({ error: (error as Error).message }), {
-      status: 500,
-    });
+    return jsonResponse({ success: true, productId: newProduct.id }, 201);
+  } catch (error) {
+    return responseFromError(error);
   }
 };
 
@@ -131,7 +130,7 @@ export const PUT: APIRoute = async ({ request, params }) => {
     const body = await request.json(); // e.g., { id: number, role: string }
 
     if (!id) {
-      throw new Error("Product ID is required");
+      return errorResponse("Product ID is required", 400);
     }
 
     const updatedProduct = await db
@@ -199,12 +198,14 @@ export const PUT: APIRoute = async ({ request, params }) => {
           });
         });
       });
-      await db.delete(productAttributeValues).where(
-        inArray(
-          productAttributeValues.attributeId,
-          (body.attributes || []).map((attr: ProductAttribute) => attr.id),
-        ),
-      );
+      const attributeIds = (body.attributes || [])
+        .map((attr: ProductAttribute) => attr.id)
+        .filter(Boolean);
+      if (attributeIds.length > 0) {
+        await db
+          .delete(productAttributeValues)
+          .where(inArray(productAttributeValues.attributeId, attributeIds));
+      }
       if (attributeValues.length > 0) {
         await db.insert(productAttributeValues).values(attributeValues);
       }
@@ -225,14 +226,9 @@ export const PUT: APIRoute = async ({ request, params }) => {
       }
     }
 
-    return new Response(
-      JSON.stringify({ success: true, data: updatedProduct }),
-      { status: 200 },
-    );
-  } catch (error: any) {
-    return new Response(JSON.stringify({ error: (error as Error).message }), {
-      status: 500,
-    });
+    return jsonResponse({ success: true, data: updatedProduct });
+  } catch (error) {
+    return responseFromError(error);
   }
 };
 
@@ -242,21 +238,28 @@ export const DELETE: APIRoute = async ({ request, params }) => {
     const { id } = params;
 
     if (!id) {
-      return new Response(JSON.stringify({ error: "Product ID is required" }), {
-        status: 400,
-      });
+      return errorResponse("Product ID is required", 400);
     }
 
-    await db.delete(products).where(eq(products.id, id));
+    const existingAttributes = await db
+      .select({ id: productAttributes.id })
+      .from(productAttributes)
+      .where(eq(productAttributes.productId, id));
+    const attributeIds = existingAttributes.map((attr) => attr.id);
+
+    if (attributeIds.length > 0) {
+      await db
+        .delete(productAttributeValues)
+        .where(inArray(productAttributeValues.attributeId, attributeIds));
+    }
+    await db.delete(productVariants).where(eq(productVariants.productId, id));
     await db
       .delete(productAttributes)
       .where(eq(productAttributes.productId, id));
-    await db.delete(productVariants).where(eq(productVariants.productId, id));
+    await db.delete(products).where(eq(products.id, id));
 
-    return new Response(JSON.stringify({ success: true }), { status: 200 });
-  } catch (error: any) {
-    return new Response(JSON.stringify({ error: (error as Error).message }), {
-      status: 500,
-    });
+    return jsonResponse({ success: true });
+  } catch (error) {
+    return responseFromError(error);
   }
 };

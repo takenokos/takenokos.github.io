@@ -44,7 +44,7 @@ export default function ProductForm({ id, onSave }: ProductFormProps) {
     categoryId: "",
     imageUrl: "",
     isFeatured: false,
-    attributes: [{ attribute: "" }],
+    attributes: [{ attribute: "", _uniqueKey: uniqueKey() }],
     variants: [
       {
         sku: "",
@@ -52,6 +52,7 @@ export default function ProductForm({ id, onSave }: ProductFormProps) {
         additionalPrice: 0,
         stock: 0,
         isAvailable: true,
+        _uniqueKey: uniqueKey(),
       },
     ],
   });
@@ -78,7 +79,21 @@ export default function ProductForm({ id, onSave }: ProductFormProps) {
   useEffect(() => {
     const loadProduct = async () => {
       const data = await fetchProduct();
-      setFormData(data);
+      setFormData({
+        ...data,
+        attributes: (data.attributes || []).map(
+          (attribute: ProductFormType["attributes"][number]) => ({
+            ...attribute,
+            _uniqueKey: attribute._uniqueKey || uniqueKey(),
+          }),
+        ),
+        variants: (data.variants || []).map(
+          (variant: ProductFormType["variants"][number]) => ({
+            ...variant,
+            _uniqueKey: variant._uniqueKey || uniqueKey(),
+          }),
+        ),
+      });
     };
     const loadCategories = async () => {
       const data = await fetchCategories();
@@ -119,7 +134,10 @@ export default function ProductForm({ id, onSave }: ProductFormProps) {
 
   const addAttribute = () => {
     const key = uniqueKey();
-    const newAttributes = [...formData.attributes, { attribute: "" }];
+    const newAttributes = [
+      ...formData.attributes,
+      { attribute: "", _uniqueKey: key },
+    ];
     setFormData({ ...formData, attributes: newAttributes });
     requestAnimationFrame(() => {
       gsap.fromTo(
@@ -249,7 +267,10 @@ export default function ProductForm({ id, onSave }: ProductFormProps) {
         },
         body: JSON.stringify(formData),
       });
-      if (!response.ok) throw new Error("Server error");
+      if (!response.ok) {
+        const payload = await response.json().catch(() => null);
+        throw new Error(payload?.error || "Server error");
+      }
       gsap.to(".form-container", {
         scale: 1.1,
         duration: 0.3,
@@ -416,11 +437,10 @@ export default function ProductForm({ id, onSave }: ProductFormProps) {
         <div>
           <label>Attributes</label>
           {formData.attributes.map((attr, index) => {
-            if (!attr._uniqueKey) attr._uniqueKey = uniqueKey();
             return (
               <div
                 key={attr._uniqueKey}
-                id={`attribute-${index}`}
+                id={`attribute-${attr._uniqueKey}`}
                 class="flex space-x-2 mb-2 p-2 border border-slate-200 dark:border-slate-600 rounded"
               >
                 <input
@@ -457,7 +477,6 @@ export default function ProductForm({ id, onSave }: ProductFormProps) {
         <div>
           <label>Variants</label>
           {formData.variants.map((variant, variantIndex) => {
-            if (!variant._uniqueKey) variant._uniqueKey = uniqueKey();
             return (
               <div
                 key={variant._uniqueKey}

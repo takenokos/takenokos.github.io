@@ -1,4 +1,5 @@
 import type { Category } from "@/db/schema.d";
+import "@/utils/iconify";
 import {
   Dropdown,
   DropdownTrigger,
@@ -7,10 +8,10 @@ import {
 } from "./ui/Dropdown.tsx";
 import { Icon } from "@iconify-icon/react";
 interface NavigationCategoriesDropdownProps {
-  categories: Category[];
+  categories?: Category[];
 }
 export default function NavigationCategoriesDropdown({
-  categories,
+  categories = [],
 }: NavigationCategoriesDropdownProps) {
   return (
     <Dropdown

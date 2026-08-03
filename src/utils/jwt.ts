@@ -11,10 +11,10 @@ export const getRole = () => {
   return decoded.role;
 };
 
-export const request = async (
+export const request = async <T = unknown>(
   url: string | URL | Request,
   opt?: RequestInit,
-) => {
+): Promise<T | undefined> => {
   const response = await fetch(url, {
     ...opt,
     headers: {
@@ -22,8 +22,8 @@ export const request = async (
       ...opt?.headers,
     },
   });
-  if (response.ok) return response.json();
-  const json = await response.json();
+  if (response.ok) return response.json() as Promise<T>;
+  const json = await response.json().catch(() => null);
   alert(json?.error || response.statusText);
   switch (response.status) {
     case 401:

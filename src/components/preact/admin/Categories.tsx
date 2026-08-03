@@ -1,23 +1,22 @@
-import { useState, useEffect } from 'preact/hooks'; 
-import CategoryList from './CategoryList'; 
-import CategoryForm from './CategoryForm'; 
-import Modal from '../ui/Modal';
-import type { Category } from '@db/schema.d'
-import { getToken } from '@/utils/jwt';
-
+import { useState, useEffect } from "preact/hooks";
+import CategoryList from "./CategoryList";
+import CategoryForm from "./CategoryForm";
+import Modal from "../ui/Modal";
+import type { Category } from "@db/schema.d";
+import { getToken } from "@/utils/jwt";
 
 const CategoriesPage = () => {
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string>('');
+  const [error, setError] = useState<string>("");
   const [isFormOpen, setIsFormOpen] = useState(false); // State for form modal
   const [editingCategory, setEditingCategory] = useState<Category | null>(null); // For editing mode
-  const token = getToken()
+  const token = getToken();
   const fetchCategories = async () => {
-    const res = await fetch('/api/admin/categories', {
+    const res = await fetch("/api/admin/categories", {
       headers: { Authorization: `Bearer ${token}` },
     }); // Assuming API endpoint from CRUD functions
-    if (!res.ok) throw new Error('Failed to fetch categories');
+    if (!res.ok) throw new Error("Failed to fetch categories");
     return res.json();
   };
   useEffect(() => {
@@ -46,12 +45,12 @@ const CategoriesPage = () => {
 
   const handleDelete = async (id: string) => {
     const res = await fetch(`/api/admin/category/${id}`, {
-      method: 'DELETE',
+      method: "DELETE",
       headers: { Authorization: `Bearer ${token}` },
     });
     const result = await res.json();
     if (result.success) {
-      setCategories(categories.filter(cat => cat.id !== id)); // Update state
+      setCategories(categories.filter((cat) => cat.id !== id)); // Update state
     } else {
       alert(result.error); // Simple error handling
     }
@@ -62,15 +61,21 @@ const CategoriesPage = () => {
     if (editingCategory) {
       // Update existing
       res = await fetch(`/api/admin/category/${editingCategory.id}`, {
-        method: 'PUT',
-        headers: { Authorization: `Bearer ${token}` },
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
         body: JSON.stringify(formData),
       });
     } else {
       // Create new
-      res = await fetch('/api/admin/category/0', {
-        method: 'POST',
-        headers: { Authorization: `Bearer ${token}` },
+      res = await fetch("/api/admin/category/0", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
         body: JSON.stringify(formData),
       });
     }
@@ -117,5 +122,4 @@ const CategoriesPage = () => {
   );
 };
 
-
-export default CategoriesPage
+export default CategoriesPage;

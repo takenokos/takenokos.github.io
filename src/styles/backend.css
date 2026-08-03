@@ -15,3 +15,35 @@ html.dark {
 body {
   @apply min-h-screen font-sans antialiased transition-colors duration-300 motion-opacity-in motion-duration-500 motion-ease-spring-bouncier;
 }
+
+.admin-scrollbar {
+  @apply scrollbar-thin scrollbar-thumb-indigo-500/45 scrollbar-track-transparent;
+}
+
+.admin-scrollbar::-webkit-scrollbar {
+  @apply w-2;
+}
+
+.admin-scrollbar::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+
+.admin-scrollbar::-webkit-scrollbar-thumb {
+  @apply bg-indigo-500/35 border-2 border-transparent rounded-full bg-clip-content;
+}
+
+.admin-scrollbar:hover::-webkit-scrollbar-thumb {
+  @apply bg-indigo-500/65;
+}
+
+.dark .admin-scrollbar {
+  @apply scrollbar-thumb-indigo-400/45
+}
+
+.dark .admin-scrollbar::-webkit-scrollbar-thumb {
+  @apply bg-indigo-400/45;
+}
+
+.dark .admin-scrollbar:hover::-webkit-scrollbar-thumb {
+  @apply bg-indigo-400/72;
+}

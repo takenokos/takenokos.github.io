@@ -1,10 +1,12 @@
-@import "tailwindcss";
+@import 'tailwindcss';
+
 @plugin 'tailwindcss-motion';
 @plugin '@tailwindcss/typography';
+
 @custom-variant dark (&:where(.dark, .dark *));
 
 html {
-  @apply bg-gradient-to-br from-indigo-600 to-fuchsia-50 text-slate-950 min-h-screen;
+  @apply bg-linear-to-br from-indigo-600 to-fuchsia-50 text-slate-950 min-h-screen;
   font-family: sans-serif;
 }
 

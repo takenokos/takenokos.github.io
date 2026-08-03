@@ -3,6 +3,11 @@ import { db, products } from "@/db/schema";
 import { verifyAdminToken } from "./JWT";
 import type { APIRoute } from "astro";
 import { z } from "zod";
+import {
+  errorResponse,
+  jsonResponse,
+  responseFromError,
+} from "@/utils/apiResponse";
 
 // Define a Zod schema for validating and coercing query parameters
 const productQuerySchema = z.object({
@@ -28,12 +33,10 @@ export const GET: APIRoute = async ({ request }) => {
     const validation = productQuerySchema.safeParse(Object.fromEntries(params));
 
     if (!validation.success) {
-      return new Response(
-        JSON.stringify({
-          error: "Invalid query parameters",
-          details: validation.error.flatten(),
-        }),
-        { status: 400, headers: { "Content-Type": "application/json" } },
+      return errorResponse(
+        "Invalid query parameters",
+        400,
+        validation.error.flatten(),
       );
     }
 
@@ -60,7 +63,7 @@ export const GET: APIRoute = async ({ request }) => {
         .select()
         .from(products)
         .where(whereClause)
-        // .limit(limit)
+        .limit(limit)
         .offset(offset)
         .orderBy(products.id),
       db.select({ total: count() }).from(products).where(whereClause),
@@ -79,18 +82,12 @@ export const GET: APIRoute = async ({ request }) => {
       },
     };
 
-    return new Response(JSON.stringify(responsePayload), {
-      status: 200,
-      headers: { "Content-Type": "application/json" },
-    });
+    return jsonResponse(responsePayload);
   } catch (error) {
-    if (error instanceof Response) {
-      return error; // Handles auth errors from verifyAdminToken
-    }
     console.error("Error fetching products:", error);
-    return new Response(
-      JSON.stringify({ error: "An unexpected error occurred." }),
-      { status: 500, headers: { "Content-Type": "application/json" } },
+    return responseFromError(
+      error,
+      "An unexpected error occurred while fetching products.",
     );
   }
 };

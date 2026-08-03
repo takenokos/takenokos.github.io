@@ -7,6 +7,11 @@ import {
 } from "@db/schema";
 import { eq, and } from "drizzle-orm";
 import type { APIRoute } from "astro";
+import {
+  errorResponse,
+  jsonResponse,
+  responseFromError,
+} from "@/utils/apiResponse";
 
 const GETVariantsForProduct = async (productId: string) => {
   const variants = await db
@@ -27,38 +32,48 @@ const GETVariantsForProduct = async (productId: string) => {
   };
 };
 export const GET: APIRoute = async ({ params }) => {
-  const { slug } = params;
-  const data = await db
-    .select()
-    .from(products)
-    .where(eq(products.slug, slug as string))
-    .limit(1);
-  if (data.length > 0) {
-    const variantsData = await GETVariantsForProduct(data[0].id);
-    return new Response(JSON.stringify({ product: data[0], ...variantsData }), {
-      status: 200,
-    });
-  } else {
-    return new Response("Product not found", { status: 404 });
+  try {
+    const { slug } = params;
+    const data = await db
+      .select()
+      .from(products)
+      .where(eq(products.slug, slug as string))
+      .limit(1);
+    if (data.length > 0) {
+      const variantsData = await GETVariantsForProduct(data[0].id);
+      return jsonResponse({ product: data[0], ...variantsData });
+    } else {
+      return errorResponse("Product not found", 404);
+    }
+  } catch (error) {
+    return responseFromError(error, "Failed to fetch product.");
   }
 };
 
 export const POST: APIRoute = async ({ request }) => {
-  const body = await request.json(); // e.g., { productId: 1, combinations: { "color": "Red", "size": "M" } }
-  const matchingVariant = await db
-    .select()
-    .from(productVariants)
-    .where(
-      and(
-        eq(productVariants.productId, body.productId),
-        eq(productVariants.combinations, body.combinations), // JSON equality
-      ),
-    )
-    .limit(1);
+  try {
+    const body = await request.json(); // e.g., { productId: 1, combinations: { "color": "Red", "size": "M" } }
+    if (!body.productId || !body.combinations) {
+      return errorResponse("Invalid variant request", 400);
+    }
 
-  if (matchingVariant.length > 0) {
-    return new Response(JSON.stringify(matchingVariant[0]), { status: 200 }); // Return SKU, price, stock
-  } else {
-    return new Response("Variant not available", { status: 400 });
+    const matchingVariant = await db
+      .select()
+      .from(productVariants)
+      .where(
+        and(
+          eq(productVariants.productId, body.productId),
+          eq(productVariants.combinations, body.combinations), // JSON equality
+        ),
+      )
+      .limit(1);
+
+    if (matchingVariant.length > 0) {
+      return jsonResponse(matchingVariant[0]); // Return SKU, price, stock
+    } else {
+      return errorResponse("Variant not available", 400);
+    }
+  } catch (error) {
+    return responseFromError(error, "Failed to validate product variant.");
   }
 };

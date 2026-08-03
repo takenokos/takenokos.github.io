@@ -20,6 +20,10 @@ export default function ProductDetail({ slug }: ProductDetailProps) {
   const [attributes, setAttributes] = useState<ProductAttribute[]>([]);
   const [selectedCombinations, setSelectedCombinations] = useState({}); // e.g., { color: 'Red', size: 'M' }
   const [variant, setVariant] = useState<ProductVariant[]>([]);
+  const [selectedVariant, setSelectedVariant] = useState<ProductVariant | null>(
+    null,
+  );
+  const [variantMessage, setVariantMessage] = useState("");
 
   useEffect(() => {
     fetchProductWithVariants(slug || "").then((data) => {
@@ -37,10 +41,12 @@ export default function ProductDetail({ slug }: ProductDetailProps) {
 
   const handleSelectionChange = (attribute: string, value: string) => {
     setSelectedCombinations({ ...selectedCombinations, [attribute]: value });
+    setSelectedVariant(null);
+    setVariantMessage("");
   };
 
   const validateAndAddToCart = async () => {
-    const response = await fetch("/api/product/validate-variant", {
+    const response = await fetch(`/api/product/${slug}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -48,11 +54,13 @@ export default function ProductDetail({ slug }: ProductDetailProps) {
         combinations: selectedCombinations,
       }),
     });
-    const variantData = await response.json();
+    const variantData = await response.json().catch(() => null);
     if (response.ok) {
-      // Proceed to add to cart, e.g., alert(`Added ${variantData.sku} to cart`);
+      setSelectedVariant(variantData);
+      setVariantMessage(`Selected SKU: ${variantData.sku}`);
     } else {
-      alert("Invalid combination");
+      setSelectedVariant(null);
+      setVariantMessage(variantData?.error || "Invalid combination");
     }
   };
 
@@ -99,8 +107,17 @@ export default function ProductDetail({ slug }: ProductDetailProps) {
             onClick={validateAndAddToCart}
             class="mt-4 px-4 py-2 bg-blue-500 text-white rounded"
           >
-            Add to Cart
+            Check Variant
           </button>
+          {variantMessage && (
+            <p
+              class={`mt-3 ${selectedVariant ? "text-emerald-600" : "text-red-600"}`}
+            >
+              {variantMessage}
+              {selectedVariant &&
+                ` | Price: $${product.price + (selectedVariant.additionalPrice || 0)} | Stock: ${selectedVariant.stock}`}
+            </p>
+          )}
         </div>
       </section>
       <section class="my-4 rounded shadow p-5 backdrop-blur-md bg-white/10 dark:bg-black/10">

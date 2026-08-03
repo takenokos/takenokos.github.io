@@ -1,6 +1,6 @@
-import { useEffect } from 'preact/hooks';
-import type { FunctionalComponent } from 'preact';
-import { gsap } from 'gsap';
+import { useEffect } from "preact/hooks";
+import type { FunctionalComponent } from "preact";
+import { gsap } from "gsap";
 
 interface Category {
   id: string;
@@ -14,18 +14,31 @@ interface CategoryListProps {
   onDelete: (id: string) => void;
 }
 
-const CategoryList: FunctionalComponent<CategoryListProps> = ({ categories, onEdit, onDelete }) => {
+const CategoryList: FunctionalComponent<CategoryListProps> = ({
+  categories,
+  onEdit,
+  onDelete,
+}) => {
   useEffect(() => {
-    gsap.fromTo('.category-item', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, stagger: 0.1 });
+    gsap.fromTo(
+      ".category-item",
+      { opacity: 0, y: 20 },
+      { opacity: 1, y: 0, duration: 0.5, stagger: 0.1 },
+    );
   }, [categories]);
 
   return (
     <ul class="space-y-4">
       {categories.map((category) => (
-        <li key={category.id} class="category-item flex justify-between items-center p-4 border rounded shadow">
+        <li
+          key={category.id}
+          class="category-item flex justify-between items-center p-4 border rounded shadow"
+        >
           <div>
             <h2 class="text-xl font-semibold">{category.name}</h2>
-            <p class="text-slate-600">{category.description || 'No description'}</p>
+            <p class="text-slate-600">
+              {category.description || "No description"}
+            </p>
           </div>
           <div>
             <button

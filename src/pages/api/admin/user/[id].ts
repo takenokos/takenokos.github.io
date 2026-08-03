@@ -1,112 +1,120 @@
-import { db, users } from '@db/schema';
-import { verifyAdminToken } from '../JWT';
-import { eq } from 'drizzle-orm';
-import type { APIRoute } from 'astro';
-import bcrypt from 'bcryptjs';
+import { db, users } from "@db/schema";
+import { verifyAdminToken } from "../JWT";
+import { eq } from "drizzle-orm";
+import type { APIRoute } from "astro";
+import bcrypt from "bcryptjs";
+import {
+  errorResponse,
+  jsonResponse,
+  responseFromError,
+} from "@/utils/apiResponse";
+
+const sanitizeUser = <T extends { passwordHash?: string | null }>(user: T) => {
+  const { passwordHash, ...rest } = user;
+  return rest;
+};
 
 export const GET: APIRoute = async ({ request, params }) => {
   try {
     await verifyAdminToken(request);
-    const { id } = params
-    const user = await db.select().from(users).where(eq(users.id, id as string));
-    if (user.length === 0) {
-      return new Response(JSON.stringify({ error: 'User not found' }), { status: 404 });
-    }
-    // 移除敏感信息，如密码
-    const safeUser = user.map(({ passwordHash, ...rest }) => rest);
-    return new Response(JSON.stringify(safeUser[0]), { status: 200  });
+    const { id } = params;
+    if (!id) return errorResponse("User ID is required", 400);
+
+    const user = await db.select().from(users).where(eq(users.id, id));
+    if (user.length === 0) return errorResponse("User not found", 404);
+
+    return jsonResponse(sanitizeUser(user[0]));
   } catch (error) {
-    return new Response(JSON.stringify({ error: (error as Error).message }), { status: 401 });
+    return responseFromError(error);
   }
-}
+};
+
 export const POST: APIRoute = async ({ request }) => {
   try {
-    await verifyAdminToken(request); // 验证Admin Token
-    const { name, email, password, role } = await request.json(); // 解析请求体
+    await verifyAdminToken(request);
+    const { name, email, password, role } = await request.json();
 
-    // 输入验证
     if (!name || !email || !password || !role) {
-      return new Response(JSON.stringify({ error: 'Missing required fields: name, email, password, role' }), { status: 400 });
+      return errorResponse(
+        "Missing required fields: name, email, password, role",
+        400,
+      );
     }
 
-    // 检查用户是否存在（例如，按email）
-    const existingUser = await db.select().from(users).where(eq(users.email, email));
+    const existingUser = await db
+      .select()
+      .from(users)
+      .where(eq(users.email, email));
     if (existingUser.length > 0) {
-      return new Response(JSON.stringify({ error: 'User with this email already exists' }), { status: 409 }); // 冲突
+      return errorResponse("User with this email already exists", 409);
     }
 
-    // 哈希密码
     const hashedPassword = await bcrypt.hash(password, 16);
+    const [newUser] = await db
+      .insert(users)
+      .values({
+        email,
+        passwordHash: hashedPassword,
+        name,
+        role,
+      })
+      .returning();
 
-    // 创建新用户
-    const [newUser] = await db.insert(users).values({
-      email: email,
-      passwordHash: hashedPassword, // 存储哈希后的密码
-      name: name,
-      role: role,
-    }).returning({ id: users.id }); // 返回新ID
-
-    return new Response(JSON.stringify({ success: true, userId: newUser.id }), { status: 201 }); // 201 Created
+    return jsonResponse({ success: true, data: sanitizeUser(newUser) }, 201);
   } catch (error) {
-    return new Response(JSON.stringify({ error: (error as Error).message }), { status: 500 });
+    return responseFromError(error);
   }
 };
 
 export const PUT: APIRoute = async ({ request, params }) => {
   try {
     await verifyAdminToken(request);
-    const { id } = params
-    const body = await request.json(); // e.g., { id: number, role: string }
-    if (!id) {
-      return new Response(JSON.stringify({ error: 'User ID is required' }), { status: 400 });
-    }
+    const { id } = params;
+    const body = await request.json();
 
-    // 输入验证：至少有一个字段需要更新
+    if (!id) return errorResponse("User ID is required", 400);
     if (Object.keys(body).length === 0) {
-      return new Response(JSON.stringify({ error: 'No fields to update' }), { status: 400 });
+      return errorResponse("No fields to update", 400);
     }
 
-    // 如果更新密码，需哈希
     if (body.password) {
       body.passwordHash = await bcrypt.hash(body.password, 16);
     }
 
-    // 检查用户是否存在
     const existingUser = await db.select().from(users).where(eq(users.id, id));
-    if (existingUser.length === 0) {
-      return new Response(JSON.stringify({ error: 'User not found' }), { status: 404 });
-    }
-    // 过滤不更新的字段
-    Object.keys(body).forEach(key => {
-      if (['createdAt', 'id', 'updatedAt', 'password'].includes(key)) delete body[key]
-    })
-    await db.update(users).set(body).where(eq(users.id, id));
-    return new Response(JSON.stringify({ success: true }), { status: 200 });
-  } catch (error) {
-    return new Response(JSON.stringify({ error: (error as Error).message }), { status: 500 });
-  }
-}
+    if (existingUser.length === 0) return errorResponse("User not found", 404);
 
+    Object.keys(body).forEach((key) => {
+      if (["createdAt", "id", "updatedAt", "password"].includes(key)) {
+        delete body[key];
+      }
+    });
+
+    const [updatedUser] = await db
+      .update(users)
+      .set(body)
+      .where(eq(users.id, id))
+      .returning();
+
+    return jsonResponse({ success: true, data: sanitizeUser(updatedUser) });
+  } catch (error) {
+    return responseFromError(error);
+  }
+};
 
 export const DELETE: APIRoute = async ({ request, params }) => {
   try {
-    await verifyAdminToken(request); // 验证Admin Token
-    const { id } = params
-    if (!id) {
-      return new Response(JSON.stringify({ error: 'User ID is required' }), { status: 400 });
-    }
+    await verifyAdminToken(request);
+    const { id } = params;
+    if (!id) return errorResponse("User ID is required", 400);
 
-    // 检查用户是否存在
     const existingUser = await db.select().from(users).where(eq(users.id, id));
-    if (existingUser.length === 0) {
-      return new Response(JSON.stringify({ error: 'User not found' }), { status: 404 });
-    }
+    if (existingUser.length === 0) return errorResponse("User not found", 404);
 
-    // 执行删除
     await db.delete(users).where(eq(users.id, id));
 
-    return new Response(JSON.stringify({ success: true }), { status: 200 });
+    return jsonResponse({ success: true });
   } catch (error) {
-    return new Response(JSON.stringify({ error: (error as Error).message }), { status: 500 });
+    return responseFromError(error);
   }
-}
+};

@@ -4,15 +4,13 @@ import { db, users } from "@db/schema";
 import { eq, and, or } from "drizzle-orm";
 import type { APIRoute } from "astro";
 import { JWT_SECRET } from "./JWT.ts";
+import { errorResponse, jsonResponse } from "@/utils/apiResponse";
 
 export const POST: APIRoute = async ({ request }) => {
   try {
     const { email, password } = await request.json();
     if (!email || !password) {
-      return new Response(
-        JSON.stringify({ error: "Email and password are required" }),
-        { status: 400 },
-      );
+      return errorResponse("Email and password are required", 400);
     }
 
     const userResult = await db
@@ -26,9 +24,7 @@ export const POST: APIRoute = async ({ request }) => {
       )
       .limit(1);
     if (userResult.length === 0) {
-      return new Response(JSON.stringify({ error: "Admin user not found" }), {
-        status: 401,
-      });
+      return errorResponse("Admin user not found", 401);
     }
     const user = userResult[0];
     const isPasswordValid = await bcrypt.compare(
@@ -36,20 +32,13 @@ export const POST: APIRoute = async ({ request }) => {
       user.passwordHash as string,
     );
     if (!isPasswordValid) {
-      return new Response(JSON.stringify({ error: "Invalid password" }), {
-        status: 400,
-      });
+      return errorResponse("Invalid password", 400);
     }
     const token = jwt.sign({ id: user.id, role: user.role }, JWT_SECRET, {
       expiresIn: "1d",
     });
-    return new Response(JSON.stringify({ token }), { status: 200 });
+    return jsonResponse({ token });
   } catch (error) {
-    return new Response(
-      JSON.stringify({
-        error: "Server error occurred. Please try again later.",
-      }),
-      { status: 500 },
-    );
+    return errorResponse("Server error occurred. Please try again later.");
   }
 };
